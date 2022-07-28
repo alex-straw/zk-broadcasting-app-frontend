@@ -1,1 +1,8 @@
 
+```
+npm install
+```
+
+```
+npm start
+```
