@@ -2,10 +2,9 @@ import React from 'react';
 import {
   Nav,
   NavLink,
-  Bars,
   NavMenu,
-  NavBtn,
-  NavBtnLink
+  // NavBtn,
+  // NavBtnLink
 } from './NavbarElements';
 
 const Navbar = () => {
@@ -16,7 +15,7 @@ const Navbar = () => {
           Logo
           {/* <img src={require('../../images/logo.svg')} alt='logo' /> */}
         </NavLink>
-        <Bars />
+        {/* <Bars /> */}
         <NavMenu>
           <NavLink to='/about'>
             About
@@ -27,15 +26,15 @@ const Navbar = () => {
           <NavLink to='/contact-us'>
             Contact Us
           </NavLink>
-          <NavLink to='/sign-up'>
+          {/* <NavLink to='/sign-up'>
             Sign Up
-          </NavLink>
+          </NavLink> */}
           {/* Second Nav */}
           {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
         </NavMenu>
-        <NavBtn>
+        {/* <NavBtn>
           <NavBtnLink to='/signin'>Sign In</NavBtnLink>
-        </NavBtn>
+        </NavBtn> */}
       </Nav>
     </>
   );
