@@ -1,17 +1,11 @@
 import React from 'react';
+import { Wrapper, Title } from "../component-styles/layout-styles"
 
 const About = () => {
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '90vh'
-      }}
-    >
-      <h1>About</h1>
-    </div>
+    <Wrapper>
+        <Title> About </Title>
+    </Wrapper>
   );
 };
 

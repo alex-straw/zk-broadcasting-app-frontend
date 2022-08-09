@@ -1,19 +1,16 @@
 import React from 'react';
 import CreateForm from '../components/CreateForm';
+import { Wrapper, Title, CenterComponent } from "../component-styles/layout-styles"
+
 
 const Create = () => {
   return (
-    <div
-      style={{
-        display: 'flex-wrap',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '40vh'
-      }}
-      >
-      <h1>Create</h1>
-      <CreateForm/>
-    </div>
+    <Wrapper>
+        <Title> Create </Title>
+        <CenterComponent>
+            <CreateForm/>
+        </CenterComponent>
+    </Wrapper>
   );
 };
 

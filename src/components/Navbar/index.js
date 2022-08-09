@@ -5,7 +5,7 @@ import {
   NavMenu,
   // NavBtn,
   // NavBtnLink
-} from './NavbarElements';
+} from '../../component-styles/navbar-styles';
 
 const Navbar = () => {
   return (
