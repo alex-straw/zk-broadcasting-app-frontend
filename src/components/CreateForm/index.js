@@ -4,7 +4,7 @@ import { Button, Input, TextBox, EmailCard} from "../../component-styles/generic
 const emailCard = (item, index) => {
     return(
             <EmailCard key={index}> 
-                <div> {index}: {item} </div> 
+                {index}: {item}
             </EmailCard>
     )
 }

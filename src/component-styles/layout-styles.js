@@ -16,6 +16,6 @@ export const Title = styled.h1`
 
 export const CenterComponent = styled.section`
     margin: auto;
-    width: 50%;
+    width: 50vw;
     padding: 10px;
 `
