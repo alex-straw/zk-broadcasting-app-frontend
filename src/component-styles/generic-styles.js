@@ -14,14 +14,15 @@ export const Button = styled.button`
     font-size: 1em;
     margin: 0.5em;
     padding: 0.5em;
-    border: 2px solid palevioletred;
+    border-style: solid;
     border-radius: 3px;
     background: white;
     opacity: 0.6;
     transition: 0.3s;
+    width: 20vw;
 
     &:hover {
-        background-color: palevioletred;
+        border-style: solid;
         opacity: 1;
     }
 `;
@@ -30,9 +31,9 @@ export const TextBox = styled.h2`
     font-size: 1em;
     margin: 0.5em;
     padding: 0.5em;
-    border: 2px solid palevioletred;
+    border-style: solid;
     border-radius: 3px;
-    opacity: 0.3;
+    opacity: 0.2;
     background: grey;
     display: inline-block;
     width: 5vw;
@@ -44,7 +45,7 @@ export const EmailCard = styled.div`
     font-size: 1em;
     margin: 0.5em;
     padding: 0.5em;
-    border: 2px solid palevioletred;
+    border-style: solid;
     border-radius: 3px;
     background: white;
     display: inline-block;
