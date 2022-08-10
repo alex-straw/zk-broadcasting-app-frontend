@@ -4,6 +4,7 @@ import { Button, Input, TextBox, EmailCard, LongInput, LongTextBox} from "../../
 import { VerticalGap } from "../../component-styles/layout-styles";
 import { UserContext } from "../../helpers/UserContext";
 import poolFactoryAbi from '../../contracts/poolFactoryABI'
+import { wait } from "@testing-library/user-event/dist/utils";
 
 const emailCard = (item, index) => {
     return(
@@ -36,12 +37,12 @@ const CreateForm = () => {
             poolFactoryAbi,
             userContext.signer
         )
-
-        alert(poolFactory.address)
         const options = {value: fee}
         try {
-            await poolFactory.paySetupFee(poolName, idCount, options)
-            return true
+            const transaction = await poolFactory.paySetupFee(poolName, idCount, options)
+            let reciept = await transaction.wait()
+            reciept.then(alert("received receipt"))
+
         } catch(err) {
             console.log(err)
             return false
@@ -56,17 +57,15 @@ const CreateForm = () => {
                 alert("Please add at least one email")
             } else {
                 try {
-                    // const response = await fetch(`${process.env.REACT_APP_ESTIMATE_GAS_API}?idCount=${idCount}`);
+                    const response = await fetch(`${process.env.REACT_APP_ESTIMATE_GAS_API}?idCount=${idCount}`);
             
-                    // if (!response.ok) {
-                    // throw new Error(`Error! status: ${response.status}`);
-                    // }
+                    if (!response.ok) {
+                    throw new Error(`Error! status: ${response.status}`);
+                    }
                 
-                    // const result = await response.json();
-                    
-                    const result = {gasPriceEther: "70000000000000"}
+                    const result = await response.json();
+                    await paySetupFee(parseInt(await result["gasCostEther"]));
 
-                    await paySetupFee()
                 } catch (err) {
                     console.log(err);
                 }
