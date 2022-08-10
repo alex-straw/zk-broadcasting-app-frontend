@@ -10,6 +10,16 @@ export const Input = styled.input`
     width: 20vw
 `;
 
+export const LongInput = styled.input`
+font-size: 1em;
+    margin: 0.5vw;
+    padding: 0.5vw;
+    color: #000;
+    border-style: solid;
+    border-radius: 3px;
+    width: 31vw
+`;
+
 export const Button = styled.button`
   /* Adapt the colors based on primary prop */
     font-size: 1em;
@@ -37,13 +47,26 @@ export const TextBox = styled.h2`
     padding: 0.5vw;
     border-style: solid;
     border-radius: 3px;
-    opacity: 0.2;
+    opacity: 0.75;
     background: grey;
     display: inline-block;
     width: 5vw;
-    /* width: flex; */
     text-align: center;
-`
+`;
+
+export const LongTextBox = styled.h2`
+    font-size: 1em;
+    margin: 0.5vw;
+    padding: 0.5vw;
+    margin-left: 5vw;
+    border-style: solid;
+    border-radius: 3px;
+    opacity: 0.75;
+    background: grey;
+    display: inline-block;
+    width: 10vw;
+    text-align: center;
+`;
 
 export const EmailCard = styled.div`
     font-size: 1em;
@@ -57,4 +80,4 @@ export const EmailCard = styled.div`
     /* width: flex; */
     width: 42vw;
     text-align: left;
-`
+`;

@@ -1,5 +1,6 @@
 import React, {useState, useContext} from "react";
-import { Button, Input, TextBox, EmailCard} from "../../component-styles/generic-styles"
+import { Button, Input, TextBox, EmailCard, LongInput, LongTextBox} from "../../component-styles/generic-styles"
+import { VerticalGap } from "../../component-styles/layout-styles";
 import { UserContext } from "../../helpers/UserContext";
 
 const emailCard = (item, index) => {
@@ -12,7 +13,8 @@ const emailCard = (item, index) => {
 
 const CreateForm = () => {
 
-    const [memberEmail, setMemberEmail] = useState("email");
+    const [poolName, setPoolName] = useState("pool-name...")
+    const [memberEmail, setMemberEmail] = useState("email...");
     const [idCount, setIdCount] = useState(0);
     const [poolMembers, setPoolMembers] = useState([]);
     const emailList = poolMembers.map((item, index) => emailCard(item, index+1));
@@ -24,6 +26,9 @@ const CreateForm = () => {
         setMemberEmail("");
     }
 
+    async function paySetupFee(value, name, idCount) {
+        
+    }
 
     async function handleClickSubmit() {
         if (!userContext.address) {
@@ -51,6 +56,19 @@ const CreateForm = () => {
 
     return (
         <div>
+            <LongTextBox>
+                Name
+            </LongTextBox>
+
+            <LongInput 
+                type="text"
+                placeholder="pool-name..."
+                name="poolName"
+                onChange={(e) => setPoolName(e.target.value)}
+            ></LongInput>   
+
+            <VerticalGap/>
+
             <Button onClick = {handleClickAddEmail}> Add Email </Button>  
             <Input 
                 type="text"

@@ -19,3 +19,9 @@ export const CenterComponent = styled.section`
     width: 50vw;
     padding: 10px;
 `
+
+export const VerticalGap = styled.section`
+    padding:1em;
+    background:white;
+    height: 5%
+`
