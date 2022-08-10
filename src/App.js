@@ -9,7 +9,6 @@ import Contact from './pages/contact';
 import SignUp from './pages/signup';
 import { UserContext } from "./helpers/UserContext"
 
-
 function App() {
 
     // Address of Metamask user

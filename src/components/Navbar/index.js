@@ -7,7 +7,6 @@ import {
   NavBtnLink
 } from '../../component-styles/navbar-styles';
 import MetaMask from './metamask';
-import { Button } from '../../component-styles/generic-styles';
 
 const Navbar = () => {
   return (
