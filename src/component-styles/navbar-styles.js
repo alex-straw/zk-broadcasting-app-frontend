@@ -33,9 +33,23 @@ export const NavMenu = styled.div`
 `;
 
 export const NavBtn = styled.nav`
+  border-radius: 4px;
+  background: #256ce1;
   display: flex;
+  color: #fff;
+  cursor: pointer;
   align-items: center;
-  margin-right: 24px;
+  margin-right: -24px;
+  margin-left: 24px;
+  padding: 10px 22px;
+  height: 2em;
+
+
+  &:hover {
+    transition: all 0.2s ease-in-out;
+    background: #fff;
+    color: #010606;
+  }
 
 `;
 

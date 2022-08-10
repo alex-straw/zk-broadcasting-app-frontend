@@ -3,9 +3,10 @@ import {
   Nav,
   NavLink,
   NavMenu,
-  // NavBtn,
-  // NavBtnLink
+  NavBtn,
+  NavBtnLink
 } from '../../component-styles/navbar-styles';
+import MetaMask from './metamask';
 
 const Navbar = () => {
   return (
@@ -26,15 +27,8 @@ const Navbar = () => {
           <NavLink to='/contact-us'>
             Contact Us
           </NavLink>
-          {/* <NavLink to='/sign-up'>
-            Sign Up
-          </NavLink> */}
-          {/* Second Nav */}
-          {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
+          <MetaMask/>
         </NavMenu>
-        {/* <NavBtn>
-          <NavBtnLink to='/signin'>Sign In</NavBtnLink>
-        </NavBtn> */}
       </Nav>
     </>
   );
