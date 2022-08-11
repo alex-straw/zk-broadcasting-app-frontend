@@ -23,8 +23,8 @@ const Navbar = () => {
           <NavLink to='/create'>
             Create
           </NavLink>
-          <NavLink to='/contact-us'>
-            Contact Us
+          <NavLink to='/verify-identity'>
+            Verify Identity
           </NavLink>
           <MetaMask/>
         </NavMenu>

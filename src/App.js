@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages';
 import About from './pages/about';
 import Create from './pages/create';
-import Contact from './pages/contact';
+import VerifyIdentity from './pages/verify-identity';
 // import SignUp from './pages/signup';
 import { UserContext } from "./helpers/UserContext"
 
@@ -26,7 +26,7 @@ function App() {
             <Route path='/' exact element={<Home/>} />
             <Route path='/about' element={<About/>} />
             <Route path='/create' element={<Create/>} />
-            <Route path='/contact-us' element={<Contact/>} />
+            <Route path='/verify-identity' element={<VerifyIdentity/>} />
             {/* <Route path='/sign-up' element={<SignUp/>} /> */}
         </Routes>
         </Router>
