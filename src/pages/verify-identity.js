@@ -1,18 +1,16 @@
 import React from 'react';
+import { Wrapper, Title, CenterComponent } from "../component-styles/layout-styles"
+
 
 const VerifyIdentity = () => {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '90vh'
-      }}
-    >
-      <h1>Verify Identity</h1>
-    </div>
-  );
+    return (
+        <Wrapper>
+            <Title> Verify Identity </Title>
+            <CenterComponent>
+                Info
+            </CenterComponent>
+        </Wrapper>
+      );
 };
 
 export default VerifyIdentity;
