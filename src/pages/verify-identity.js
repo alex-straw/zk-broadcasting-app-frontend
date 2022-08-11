@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wrapper, Title, CenterComponent } from "../component-styles/layout-styles"
+import { Wrapper, Title, CenterComponent, textBlock} from "../component-styles/layout-styles"
 
 
 const VerifyIdentity = () => {
@@ -7,7 +7,17 @@ const VerifyIdentity = () => {
         <Wrapper>
             <Title> Verify Identity </Title>
             <CenterComponent>
-                Info
+                <Wrapper>
+                    <pre>
+                    1. Enter the pool that you wish to verify your membership in. {"\n"}
+                    2. Enter your pre-image.{"\n"}
+                    3. Enter your member number.{"\n"}
+                    4. Generate a random password (performed on your end - so we can't see).{"\n"}
+                    4. Generate a zk-SNARK proof that proves you posess the associated password (pre-image) for that member,
+                    {"\n"}     without revealing you or the password.{"\n"}
+                    5. Update your new password on-chain so cannot pretend to be you. {"\n"}
+                    </pre>
+                </Wrapper>
             </CenterComponent>
         </Wrapper>
       );

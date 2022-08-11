@@ -131,3 +131,7 @@ export const Image = styled.img`
     height: 3em;
     width: flex;
 `;
+
+export const textBlock = styled.div`
+    white-space: pre;
+`
