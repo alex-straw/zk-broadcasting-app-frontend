@@ -7,7 +7,7 @@ export const Input = styled.input`
     color: #000;
     border-style: solid;
     border-radius: 3px;
-    width: 20vw
+    width: 40vw
 `;
 
 export const LongInput = styled.input`
@@ -17,7 +17,17 @@ font-size: 1em;
     color: #000;
     border-style: solid;
     border-radius: 3px;
-    width: 31vw
+    width: 51vw
+`;
+
+export const TinyInput = styled.input`
+font-size: 1em;
+    margin: 0.5vw;
+    padding: 0.5vw;
+    color: #000;
+    border-style: solid;
+    border-radius: 3px;
+    width: 10vw
 `;
 
 export const Button = styled.button`
@@ -44,7 +54,7 @@ export const Button = styled.button`
 export const TextBox = styled.h2`
     font-size: 1em;
     margin: 0.5vw;
-    padding: 0.5vw;
+    padding: 0.5vw; 
     border-style: solid;
     border-radius: 3px;
     opacity: 0.75;
@@ -68,6 +78,20 @@ export const LongTextBox = styled.h2`
     text-align: center;
 `;
 
+export const LongTextBoxDetail = styled.h2`
+    font-size: 1em;
+    margin: 0.5vw;
+    padding: 0.5vw;
+    margin-left: 5vw;
+    border-style: solid;
+    border-radius: 3px;
+    opacity: 0.75;
+    background: grey;
+    display: inline-block;
+    width: 51vw;
+    text-align: center;
+`;
+
 export const EmailCard = styled.div`
     font-size: 1em;
     margin: 0.5vw;
@@ -78,6 +102,6 @@ export const EmailCard = styled.div`
     background: white;
     display: inline-block;
     /* width: flex; */
-    width: 42vw;
+    width: 62vw;
     text-align: left;
 `;
