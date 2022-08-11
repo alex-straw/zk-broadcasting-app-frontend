@@ -4,7 +4,8 @@ import { Button, Input, TextBox, EmailCard, LongInput, LongTextBox, LongTextBoxD
 import { CenterComponent, Title, VerticalGap, Wrapper } from "../../component-styles/layout-styles";
 import { UserContext } from "../../helpers/UserContext";
 import { customAlphabet } from "nanoid";
-import { ethers} from "ethers";
+import { ethers } from "ethers";
+
 
 
 const VerifyIdentityForm = () => {

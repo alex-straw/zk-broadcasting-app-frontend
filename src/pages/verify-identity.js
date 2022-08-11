@@ -23,10 +23,10 @@ const VerifyIdentity = () => {
                             Generate a random password (performed on your end - so we can't see).
                             </li>
                             <li>
-                            Generate a zk-SNARK proof that proves you posess the associated password (pre-image) for that member, without revealing you or the password.
+                            Generate a zk-SNARK proof that proves you posess the associated password (pre-image) for that member, without revealing you or the password. This takes a long time ~2-3 minutes.
                             </li>
                             <li>
-                            Update your new password on-chain so cannot pretend to be you. 
+                            Update your new password on-chain (so we can't pretend to be you).
                             </li>
                         </ol>
                     </TextBlock>
