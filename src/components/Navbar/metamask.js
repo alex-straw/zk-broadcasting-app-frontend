@@ -5,7 +5,6 @@ import { Button } from "../../component-styles/generic-styles";
 
 const MetaMask = () => {
     const [buttonText, setButtonText] = useState("Connect to MetaMask");
-    const [userBalance, setUserBalance] = useState();
     const userContext = useContext(UserContext);
 
     const changeText = (text) => {

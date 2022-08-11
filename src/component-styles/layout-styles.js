@@ -16,6 +16,12 @@ export const Title = styled.h1`
 
 export const CenterComponent = styled.section`
     margin: auto;
-    width: 50vw;
+    width: 75vw;
     padding: 10px;
+`
+
+export const VerticalGap = styled.section`
+    padding:1em;
+    background:white;
+    height: 5%
 `

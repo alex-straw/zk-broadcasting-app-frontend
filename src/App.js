@@ -8,6 +8,7 @@ import Create from './pages/create';
 import Contact from './pages/contact';
 import SignUp from './pages/signup';
 import { UserContext } from "./helpers/UserContext"
+import {Image} from "./component-styles/generic-styles"
 
 function App() {
 
