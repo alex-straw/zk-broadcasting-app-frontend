@@ -110,18 +110,19 @@ export const ProcessingBox = styled.div`
     font-size: 1em;
     margin: 0.5vw;
     margin-left: 5vw;
-    opacity:0.8;
-    padding: 0.5vw;
+    padding: 1vw;
+    border-radius: 1em;
     border-style: solid;
-    border-radius: 1px;
-    background: #AFE1AF;
+    background: #000;
+    color: #fff;
+    opacity: 1;
     text-align: center;
     width: flex;
     width: 62vw;
 
     &:hover {
-        border-style: solid;
-        opacity: 1;
+        border-style: none;
+        opacity: 0.1;
     }
 `;
 

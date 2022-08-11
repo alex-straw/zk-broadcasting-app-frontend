@@ -1,4 +1,4 @@
-import { Contract, ethers } from "ethers";
+import { Contract } from "ethers";
 import React, {useState, useContext} from "react";
 import { Button, Input, TextBox, EmailCard, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, ProcessingBox} from "../../component-styles/generic-styles"
 import { VerticalGap } from "../../component-styles/layout-styles";
@@ -34,7 +34,6 @@ const CreateForm = () => {
 
     async function paySetupFee(fee) {
         // We know their metamask is connected here
-        const userProvider = new ethers.providers.Web3Provider(window.ethereum, "any");
         const poolFactory = new Contract( 
             "0x4Cd7249632Df70A27324bd69725727a96Fc47729",
             poolFactoryAbi,

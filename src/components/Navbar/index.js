@@ -2,9 +2,7 @@ import React from 'react';
 import {
   Nav,
   NavLink,
-  NavMenu,
-  NavBtn,
-  NavBtnLink
+  NavMenu
 } from '../../component-styles/navbar-styles';
 import MetaMask from './metamask';
 import {Image} from "../../component-styles/generic-styles"
