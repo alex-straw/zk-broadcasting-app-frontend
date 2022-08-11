@@ -1,6 +1,6 @@
 import React from 'react';
-import { Wrapper, Title, CenterComponent, textBlock} from "../component-styles/layout-styles"
-
+import { Wrapper, Title, CenterComponent, VerticalGap} from "../component-styles/layout-styles"
+import VerifyIdentityForm from "../components/VerifyIdentityForm"
 
 const VerifyIdentity = () => {
     return (
@@ -9,7 +9,7 @@ const VerifyIdentity = () => {
             <CenterComponent>
                 <Wrapper>
                     <pre>
-                    1. Enter the pool that you wish to verify your membership in. {"\n"}
+                    1.  Enter the pool that you wish to verify your membership in. {"\n"}
                     2. Enter your pre-image.{"\n"}
                     3. Enter your member number.{"\n"}
                     4. Generate a random password (performed on your end - so we can't see).{"\n"}
@@ -18,6 +18,8 @@ const VerifyIdentity = () => {
                     5. Update your new password on-chain so cannot pretend to be you. {"\n"}
                     </pre>
                 </Wrapper>
+                <VerticalGap/>
+                <VerifyIdentityForm/>
             </CenterComponent>
         </Wrapper>
       );
