@@ -120,7 +120,7 @@ export const MidTextBoxDetail = styled.h2`
     margin-left: 5vw;
     height: 4em;
     border-style: solid;
-    border-radius: 3px;
+    border-radius: 1px;
     opacity: 0.75;
     background: white;
     display: inline-block;
