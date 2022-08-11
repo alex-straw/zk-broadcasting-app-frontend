@@ -25,3 +25,14 @@ export const VerticalGap = styled.section`
     background:white;
     height: 5%
 `
+
+export const TextBlock = styled.div`
+    font-size: 1em;
+    margin: 0.5vw;
+    margin-left: 10vw;
+    text-align: left;
+    word-wrap: break-word;
+    width: 45vw;
+    display: inline-block;
+    text-align: left;
+`;

@@ -179,6 +179,13 @@ export const Image = styled.img`
     width: flex;
 `;
 
-export const textBlock = styled.div`
-    white-space: pre;
-`
+export const TextBlock = styled.div`
+    font-size: 4em;
+    margin: 0.5vw;
+    margin-left: 5vw;
+    padding: 1vw;
+    margin-left: 20vw;
+    text-align: left;
+    word-wrap: break-word;
+    width: 62vw;
+`;
