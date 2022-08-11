@@ -105,3 +105,22 @@ export const EmailCard = styled.div`
     width: 62vw;
     text-align: left;
 `;
+
+export const ProcessingBox = styled.div`
+    font-size: 1em;
+    margin: 0.5vw;
+    margin-left: 5vw;
+    opacity=0.8;
+    padding: 0.5vw;
+    border-style: solid;
+    border-radius: 1px;
+    background: #AFE1AF;
+    text-align: center;
+    width: flex;
+    width: 62vw;
+
+    &:hover {
+        border-style: solid;
+        opacity: 1;
+    }
+`

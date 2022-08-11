@@ -1,6 +1,6 @@
 import { Contract, ethers } from "ethers";
 import React, {useState, useContext} from "react";
-import { Button, Input, TextBox, EmailCard, LongInput, LongTextBox, LongTextBoxDetail, TinyInput} from "../../component-styles/generic-styles"
+import { Button, Input, TextBox, EmailCard, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, ProcessingBox} from "../../component-styles/generic-styles"
 import { VerticalGap } from "../../component-styles/layout-styles";
 import { UserContext } from "../../helpers/UserContext";
 import poolFactoryAbi from '../../contracts/poolFactoryABI'
@@ -23,13 +23,14 @@ const CreateForm = () => {
     const userContext = useContext(UserContext);
     const [broadcastThreshold, setBroadcastThreshold] = useState("1")
 
+    const [processing, setProcessing] = useState(false)
+
     function handleClickAddEmail() {
         setIdCount(idCount +1);
         setPoolMembers(poolMembers.concat(memberEmail));
         setMemberEmail("");
     }
 
-    
 
     async function paySetupFee(fee) {
         // We know their metamask is connected here
@@ -57,30 +58,21 @@ const CreateForm = () => {
         /*
             idCount=2&poolName="awslambdapoolerdefe"&broadcastThreshold=1&m0="as17163@bristol.ac.uk"&m1="alexanderstraw01@hotmail.co.uk"
         */
-        try {
 
-            let queryStringCreatePool = process.env.REACT_APP_CREATE_POOL
+        setProcessing(true);
 
-            queryStringCreatePool += `?idCount=${idCount}`
-            queryStringCreatePool += `&poolName=${poolName}`
-            queryStringCreatePool += `&broadcastThreshold=${broadcastThreshold}`
+        let queryStringCreatePool = process.env.REACT_APP_CREATE_POOL
 
-            alert(queryStringCreatePool)
-            for (let i=0; i < idCount; i++) {
-                queryStringCreatePool +=  `&m${i}=${poolMembers[i]}`
-            }
+        queryStringCreatePool += `?idCount=${idCount}`
+        queryStringCreatePool += `&poolName=${poolName}`
+        queryStringCreatePool += `&broadcastThreshold=${broadcastThreshold}`
 
-            const response = await fetch(queryStringCreatePool);
-    
-            if (!response.ok) {
-            throw new Error(`Error! status: ${response.status}`);
-            }
-        
-            const result = await response.json();
-            alert(JSON.stringify(result))
-        } catch (err) {
-            alert(err);
+        for (let i=0; i < idCount; i++) {
+            queryStringCreatePool +=  `&m${i}=${poolMembers[i]}`
         }
+
+        fetch(queryStringCreatePool, {mode: "no-cors"});
+            
     }
 
     async function handleClickSubmit() {
@@ -110,6 +102,13 @@ const CreateForm = () => {
             }
         }
     }
+
+    let processingTx;
+    {if (processing) {
+        processingTx = <ProcessingBox> We are processing your transaction. Passwords will be emailed shortly. </ProcessingBox>
+    } else {
+        processingTx = ''
+    }}
 
 
     return (
@@ -152,7 +151,12 @@ const CreateForm = () => {
             </TextBox>
             {emailList}
             <Button onClick = {handleClickSubmit}> Submit </Button>
+        
+            <VerticalGap/>
+
+            {processingTx}
         </div>
+
     );
 };
 
