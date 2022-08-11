@@ -110,7 +110,7 @@ export const ProcessingBox = styled.div`
     font-size: 1em;
     margin: 0.5vw;
     margin-left: 5vw;
-    opacity=0.8;
+    opacity:0.8;
     padding: 0.5vw;
     border-style: solid;
     border-radius: 1px;
@@ -123,4 +123,10 @@ export const ProcessingBox = styled.div`
         border-style: solid;
         opacity: 1;
     }
-`
+`;
+
+
+export const Image = styled.img`
+    height: 3em;
+    width: flex;
+`;

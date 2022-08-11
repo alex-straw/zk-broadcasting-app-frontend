@@ -7,14 +7,15 @@ import {
   NavBtnLink
 } from '../../component-styles/navbar-styles';
 import MetaMask from './metamask';
+import {Image} from "../../component-styles/generic-styles"
+import logo from '../../images/logo.PNG'
 
 const Navbar = () => {
   return (
     <>
       <Nav>
         <NavLink to='/'>
-          Logo
-          {/* <img src={require('../../images/logo.svg')} alt='logo' /> */}
+          <Image src={logo} alt='logo' />
         </NavLink>
         {/* <Bars /> */}
         <NavMenu>
