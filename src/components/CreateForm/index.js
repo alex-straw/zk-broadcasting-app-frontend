@@ -103,61 +103,54 @@ const CreateForm = () => {
         }
     }
 
-    let processingTx;
-    {if (processing) {
-        processingTx = <ProcessingBox> We are processing your transaction. Passwords will be emailed shortly. </ProcessingBox>
+    if (processing) {
+        return(<div><ProcessingBox> We are processing your transaction. Passwords will be emailed shortly. </ProcessingBox></div>)
     } else {
-        processingTx = ''
-    }}
+        return (
+            <div>
+                <LongTextBox>
+                    Name
+                </LongTextBox>
 
+                <LongInput 
+                    type="text"
+                    placeholder="pool-name..."
+                    name="poolName"
+                    onChange={(e) => setPoolName(e.target.value)}
+                ></LongInput>   
 
-    return (
-        <div>
-            <LongTextBox>
-                Name
-            </LongTextBox>
+                <VerticalGap/>
 
-            <LongInput 
-                type="text"
-                placeholder="pool-name..."
-                name="poolName"
-                onChange={(e) => setPoolName(e.target.value)}
-            ></LongInput>   
+                <LongTextBoxDetail>
+                    Verification threshold (n) for pool to become operational
+                </LongTextBoxDetail>
 
-            <VerticalGap/>
+                <TinyInput
+                    type="number"
+                    placeholder="1"
+                    name="broadcastThreshold"
+                    onChange={(e) => setBroadcastThreshold(e.target.value)} 
+                ></TinyInput>
 
-            <LongTextBoxDetail>
-                Verification threshold (n) for pool to become operational
-            </LongTextBoxDetail>
+                <VerticalGap/>
 
-            <TinyInput
-                type="number"
-                placeholder="1"
-                name="broadcastThreshold"
-                onChange={(e) => setBroadcastThreshold(e.target.value)} 
-            ></TinyInput>
-
-            <VerticalGap/>
-
-            <Button onClick = {handleClickAddEmail}> Add Email </Button>  
-            <Input 
-                type="text"
-                placeholder="example@gmail.com"
-                name="email"
-                onChange={(e) => setMemberEmail(e.target.value)}
-            ></Input>   
-            <TextBox>
-                {idCount}
-            </TextBox>
-            {emailList}
-            <Button onClick = {handleClickSubmit}> Submit </Button>
-        
-            <VerticalGap/>
-
-            {processingTx}
-        </div>
-
-    );
+                <Button onClick = {handleClickAddEmail}> Add Email </Button>  
+                <Input 
+                    type="text"
+                    placeholder="example@gmail.com"
+                    name="email"
+                    onChange={(e) => setMemberEmail(e.target.value)}
+                ></Input>   
+                <TextBox>
+                    {idCount}
+                </TextBox>
+                {emailList}
+                <Button onClick = {handleClickSubmit}> Submit </Button>
+            
+                <VerticalGap/>
+            </div>
+        )
+    }
 };
 
 export default CreateForm;
