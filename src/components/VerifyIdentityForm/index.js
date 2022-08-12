@@ -6,9 +6,7 @@ import { UserContext } from "../../helpers/UserContext";
 import { customAlphabet } from "nanoid";
 import { ethers } from "ethers";
 import { initialize } from 'zokrates-js';
-import { fs } from "fs";
-import zokratesSource from '../../zk-snarks/verifyPreImage.txt'
-
+import provingKeyBuffer from './ProvingKeyBuffer.json'
 
 const VerifyIdentityForm = () => {
 
@@ -86,24 +84,36 @@ const VerifyIdentityForm = () => {
     /* GENERATE PROOF AND SEND TX */
 
     async function generateZokratesProof() {
-
-        // const source = JSON.stringify(zokratesSource)  
     
-        const source = fs.readFileSync('../../zk-snarks/verifyPreImage.txt').toString()
+        const source = ` 
+        
+        import "hashes/sha256/512bitPacked" as sha256packed; \n
 
-        alert(source)
-        // const verificationPassword = generateFormattedHashDigest(JSON.parse(preImage))
+        def main(private field a, private field b, private field c, private field d, field h0Pub, field h1Pub) { \n
+            field[2] hash_digest = sha256packed([a, b, c, d]); \n
+            assert(hash_digest[0] == h0Pub); \n
+            assert(hash_digest[1] == h1Pub); \n
+            return; \n
+        } 
+        `
 
-        // let h0pub = verificationPassword.decHash[0]
-        // let h1pub = verificationPassword.decHash[1]
+        const verificationPassword = generateFormattedHashDigest(JSON.parse(preImage))
 
-        // const zokratesProvider = await initialize();
+        let h0pub = verificationPassword.decHash[0]
+        let h1pub = verificationPassword.decHash[1]
 
-        // const artifacts = await zokratesProvider.compile(source);
+        const pre = JSON.parse(preImage)
 
-        // const { witness, output } = await zokratesProvider.computeWitness(artifacts, preImage[0], preImage[1], preImage[2], preImage[3], h0pub, h1pub);
+        const zokratesProvider = await initialize();
 
-        // alert(JSON.stringify(await witness))
+        const artifacts = zokratesProvider.compile(source);
+
+        const { witness, output } = zokratesProvider.computeWitness(artifacts, [pre[0], pre[1], pre[2], pre[3], h0pub, h1pub]);
+        alert("before fetch")
+        
+        const proof = zokratesProvider.generateProof(artifacts.program, witness, provingKeyBuffer.data);
+
+        alert(JSON.stringify(proof))
     }
 
     return (
