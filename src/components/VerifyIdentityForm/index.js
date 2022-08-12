@@ -5,17 +5,22 @@ import { CenterComponent, Title, VerticalGap, Wrapper } from "../../component-st
 import { UserContext } from "../../helpers/UserContext";
 import { customAlphabet } from "nanoid";
 import { ethers } from "ethers";
-
+import { initialize } from 'zokrates-js';
+import { fs } from "fs";
+import zokratesSource from '../../zk-snarks/verifyPreImage.txt'
 
 
 const VerifyIdentityForm = () => {
 
+
+    /* GENERATE NEW PASSWORD */
     const nanoid = customAlphabet('123456789abcdef', 64)
 
     const [poolName, setPoolName] = useState("pool-name...");
     const [preImage, setPreImage] = useState("[0, 0, 34252345..., 2345239845...]");
     const [memberNumber, setMemberNumber] = useState("1");
     const [newPassword, setNewPassord] = useState("0");
+    const [newPasswordHash, setNewPasswordHash] = useState("0")
 
     function generatePreImage() {
         return ethers.utils.hexlify("0x" + nanoid())
@@ -53,10 +58,14 @@ const VerifyIdentityForm = () => {
         return [ethers.BigNumber.from(_formattedHexHashArray[0]).toString(), ethers.BigNumber.from(_formattedHexHashArray[1]).toString()]
     };
 
-    function generateHashPassword() {
+    function generateFormattedPreImage() {
         let preImage = generatePreImage()
         let preImageSetupInput = formatHexToBigNumber(formatBytes32Hash(preImage))
         let preImageFormatted = ["0", "0", preImageSetupInput[0], preImageSetupInput[1]]
+        return preImageFormatted
+    }
+
+    function generateFormattedHashDigest(preImageFormatted) {
         let hashDigestHexFormatted = formatBytes32Hash(sha256Hash(preImageFormatted))
         let hashDigestDecFormatted = formatHexToBigNumber(hashDigestHexFormatted)
         const password = {
@@ -64,9 +73,38 @@ const VerifyIdentityForm = () => {
             'hexHash' : hashDigestHexFormatted,
             'decHash' : hashDigestDecFormatted
         }
+        return password
+    }
 
-        setNewPassord(JSON.stringify(password.preImage))
-    };
+    function generateNewPasswordDetails() {
+        let preImageFormatted = generateFormattedPreImage()
+        let newPassword = generateFormattedHashDigest(preImageFormatted)
+        setNewPassord(JSON.stringify(newPassword.preImage))
+        setNewPasswordHash(JSON.stringify(newPassword.hexHash))
+    }
+    
+    /* GENERATE PROOF AND SEND TX */
+
+    async function generateZokratesProof() {
+
+        // const source = JSON.stringify(zokratesSource)  
+    
+        const source = fs.readFileSync('../../zk-snarks/verifyPreImage.txt').toString()
+
+        alert(source)
+        // const verificationPassword = generateFormattedHashDigest(JSON.parse(preImage))
+
+        // let h0pub = verificationPassword.decHash[0]
+        // let h1pub = verificationPassword.decHash[1]
+
+        // const zokratesProvider = await initialize();
+
+        // const artifacts = await zokratesProvider.compile(source);
+
+        // const { witness, output } = await zokratesProvider.computeWitness(artifacts, preImage[0], preImage[1], preImage[2], preImage[3], h0pub, h1pub);
+
+        // alert(JSON.stringify(await witness))
+    }
 
     return (
         <div>
@@ -102,16 +140,18 @@ const VerifyIdentityForm = () => {
                 name="memberNumber"
                 onChange={(e) => setMemberNumber(e.target.value)}
             ></TinyInput>
-
-            <VerticalGap/>
-
-            <LongerButton onClick={generateHashPassword}>
-                <pre>Generate New Password</pre>
+            <LongerButton onClick={generateNewPasswordDetails}>
+                Generate New Password
             </LongerButton>
+
             <MidTextBoxDetail onClick={() => {navigator.clipboard.writeText(newPassword)}}>
                 {newPassword}
             </MidTextBoxDetail>
             <VerticalGap/>
+
+            <LongerButton onClick={generateZokratesProof}>
+                Generate Proof and Verify Your Identity
+            </LongerButton>
         </div>
     );
   };
