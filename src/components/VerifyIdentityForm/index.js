@@ -1,12 +1,13 @@
 import { Contract } from "ethers";
 import React, {useState, useContext} from "react";
-import { Button, Input, TextBox, EmailCard, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, MidTextBoxDetail, LongerButton} from "../../component-styles/generic-styles"
-import { CenterComponent, Title, VerticalGap, Wrapper } from "../../component-styles/layout-styles";
+import { Input, TextBox, EmailCard, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, MidTextBoxDetail, LongerButton, ProcessingBox} from "../../component-styles/generic-styles"
+import { CenterComponent, Title, LargeImage, BlackFullScreen, VerticalGap, WhiteTitle, Wrapper, TextBlock } from "../../component-styles/layout-styles";
 import { UserContext } from "../../helpers/UserContext";
 import { customAlphabet } from "nanoid";
 import { ethers } from "ethers";
 import { initialize } from 'zokrates-js';
-import provingKeyBuffer from './ProvingKeyBuffer.json'
+// import provingKeyBuffer from './ProvingKeyBuffer.json'
+import loading from '../../images/7S7P.gif'
 
 const VerifyIdentityForm = () => {
 
@@ -19,6 +20,8 @@ const VerifyIdentityForm = () => {
     const [memberNumber, setMemberNumber] = useState("1");
     const [newPassword, setNewPassord] = useState("0");
     const [newPasswordHash, setNewPasswordHash] = useState("0")
+    const [processing, setProcessing] = useState(false)
+
 
     function generatePreImage() {
         return ethers.utils.hexlify("0x" + nanoid())
@@ -83,8 +86,13 @@ const VerifyIdentityForm = () => {
     
     /* GENERATE PROOF AND SEND TX */
 
+    async function generateProofSetup() {
+        setProcessing(true);
+        // generateZokratesProof();
+    }
+
     async function generateZokratesProof() {
-    
+
         const source = ` 
         
         import "hashes/sha256/512bitPacked" as sha256packed; \n
@@ -109,15 +117,54 @@ const VerifyIdentityForm = () => {
         const artifacts = zokratesProvider.compile(source);
 
         const { witness, output } = zokratesProvider.computeWitness(artifacts, [pre[0], pre[1], pre[2], pre[3], h0pub, h1pub]);
-        alert("before fetch")
         
+        const provingKeyBuffer = {"data": "0"}
+
         const proof = zokratesProvider.generateProof(artifacts.program, witness, provingKeyBuffer.data);
 
         alert(JSON.stringify(proof))
     }
 
-    return (
-        <div>
+    if (processing) {
+        return(
+        <BlackFullScreen>
+            <WhiteTitle>
+                <pre>
+                    Generating Proof {"\n"} This could take up to 5 minutes
+                </pre>
+            </WhiteTitle>
+            <LargeImage src={loading} alt="svg-loading" />
+        </BlackFullScreen>
+        )
+    } else {
+        return(
+            <CenterComponent>
+                <Title> Verify Identity </Title>
+                <Wrapper>
+                    <TextBlock>
+                        <ol>
+                            <li>
+                            Enter the pool that you wish to verify your membership in. 
+                            </li>
+                            <li>
+                            Enter your pre-image.
+                            </li>
+                            <li>
+                            Enter your member number.
+                            </li>
+                            <li>
+                            Generate a random password (performed on your end - so we can't see).
+                            </li>
+                            <li>
+                            Generate a zk-SNARK proof that proves you posess the associated password (pre-image) for that member, without revealing you or the password. This takes a long time ~2-3 minutes.
+                            </li>
+                            <li>
+                            Update your new password on-chain (so we can't pretend to be you).
+                            </li>
+                        </ol>
+                    </TextBlock>
+                </Wrapper>
+                <VerticalGap/>
             <LongTextBox>
                 Name
             </LongTextBox>
@@ -159,11 +206,12 @@ const VerifyIdentityForm = () => {
             </MidTextBoxDetail>
             <VerticalGap/>
 
-            <LongerButton onClick={generateZokratesProof}>
+            <LongerButton onClick={generateProofSetup}>
                 Generate Proof and Verify Your Identity
             </LongerButton>
-        </div>
-    );
+        </CenterComponent>
+        )
+    }
   };
   
   export default VerifyIdentityForm;

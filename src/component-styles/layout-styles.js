@@ -14,6 +14,13 @@ export const Title = styled.h1`
     line-height: 100px;
 `;
 
+export const WhiteTitle = styled.h1`
+    font-size: 1.5em;
+    text-align: center;
+    line-height: 100px;
+    color:white;
+`;
+
 export const CenterComponent = styled.section`
     margin: auto;
     width: 75vw;
@@ -36,3 +43,16 @@ export const TextBlock = styled.div`
     display: inline-block;
     text-align: left;
 `;
+
+export const BlackFullScreen = styled.section`
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+`
+
+export const LargeImage = styled.img`
+    height: 30vw;
+    margin-left: 30vw;
+`

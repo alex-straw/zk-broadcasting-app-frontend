@@ -11,6 +11,7 @@ export const Nav = styled.nav`
   z-index: 10;
   /* Third Nav */
   /* justify-content: flex-start; */
+  border-bottom: 1.5px solid rgba(255,255,255,.25);
 `;
 
 export const NavLink = styled(Link)`
