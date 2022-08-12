@@ -118,7 +118,7 @@ export const MidTextBoxDetail = styled.h2`
     margin: 0.5vw;
     padding: 0.5vw;
     margin-left: 5vw;
-    height: 4em;
+    height: 3em;
     border-style: solid;
     border-radius: 1px;
     opacity: 0.75;
@@ -177,15 +177,4 @@ export const ProcessingBox = styled.div`
 export const Image = styled.img`
     height: 3em;
     width: flex;
-`;
-
-export const TextBlock = styled.div`
-    font-size: 4em;
-    margin: 0.5vw;
-    margin-left: 5vw;
-    padding: 1vw;
-    margin-left: 20vw;
-    text-align: left;
-    word-wrap: break-word;
-    width: 62vw;
 `;
