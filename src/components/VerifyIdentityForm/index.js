@@ -7,8 +7,9 @@ import { UserContext } from "../../helpers/UserContext";
 import { customAlphabet } from "nanoid";
 import { ethers } from "ethers";
 import { initialize } from 'zokrates-js';
-// import provingKeyBuffer from './ProvingKeyBuffer.json'
 import loading from '../../images/7S7P.gif'
+import poolABI from '../../contracts/poolABI.json'
+
 
 const VerifyIdentityForm = () => {
 
@@ -109,6 +110,14 @@ const VerifyIdentityForm = () => {
         }
     }
 
+    // async function getMemberHash(poolContract) {
+    //     try {
+    //         return await poolContract.getPoolAddress(poolName)
+    //     } catch {
+    //         return "0x0000000000000000000000000000000000000000"
+    //     }
+    // }
+
     async function generateProofSetup() {
                 
         if (!MetaMaskConnected()) {
@@ -117,7 +126,15 @@ const VerifyIdentityForm = () => {
             const newPoolAddress = await getPoolAddress()
             if (newPoolAddress != "0x0000000000000000000000000000000000000000") {
                 setProcessing(true);
-                // generateZokratesProof();
+                const userProof = await generateZokratesProof();
+                const formattedProof = [await userProof.proof.a, await userProof.proof.b, await userProof.proof.c]
+                const pool = new Contract( 
+                    newPoolAddress,
+                    poolABI,
+                    userContext.signer
+                )
+
+                await pool.verifyId(memberNumber, formattedProof, newPasswordHash)
             } else {
                 alert("Invalid pool name")
             }
@@ -125,6 +142,7 @@ const VerifyIdentityForm = () => {
     }
 
     async function getProvingKeyFromS3() {
+        alert(process.env.PROVING_KEY_AWS_URL)
         return await fetch(process.env.PROVING_KEY_AWS_URL)
         .then ((response) => response.json())
         .then (data => {
@@ -158,34 +176,13 @@ const VerifyIdentityForm = () => {
         const artifacts = zokratesProvider.compile(source);
 
         const { witness, output } = zokratesProvider.computeWitness(artifacts, [pre[0], pre[1], pre[2], pre[3], h0pub, h1pub]);
-        
+
+        alert("pre aws buffer")
         const provingKeyBuffer = await getProvingKeyFromS3();
 
-        const proof = zokratesProvider.generateProof(artifacts.program, witness, await provingKeyBuffer.data);
-
-        alert(JSON.stringify(proof))
+        alert("got buffer - about to make proof")
+        return zokratesProvider.generateProof(artifacts.program, witness, await provingKeyBuffer.data);
     }
-
-    // async function verifyIdentity(poolName, proof, newPassword, memberNumber) {
-    //     // We know their metamask is connected here
-    //     const poolFactory = new Contract( 
-    //         "0x4Cd7249632Df70A27324bd69725727a96Fc47729",
-    //         poolFactoryAbi,
-    //         userContext.signer
-    //     )
-
-    //     try {
-    //         const transaction = await poolFactory.ver(poolName, idCount, options)
-    //         let reciept = await transaction.wait()
-
-    //         // Once processed - call lambda to deploy the pool and send emails
-    //         reciept.then(await awsLambdaCreatePool())
-
-    //     } catch(err) {
-    //         console.log(err)
-    //         return false
-    //     }
-    // }
 
 
     if (processing) {
@@ -283,6 +280,7 @@ const VerifyIdentityForm = () => {
             <LongerButton onClick={generateProofSetup}>
                 Generate Proof and Verify Your Identity
             </LongerButton>
+            <div>{process.env.REACT_APP_CREATE_POOL}</div>
         </CenterComponent>
         )
     }
