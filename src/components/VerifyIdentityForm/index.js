@@ -197,7 +197,14 @@ const VerifyIdentityForm = () => {
                 </pre>
             </WhiteTitle>
             <WhiteText> 
-                What's going on, and why is this so slow? A proving key (53MB) has been downloaded into your browser's memory. Your computer is currently creating a proof that you possess the hashed version of your private pre-image/password. This hashed version of your password is stored on the blockchain – and it allows the smart contract to verify your identity without exposing it. This is secure because it is virtually impossible (1 in 2^256) to get your private pre-image from this hash (using Sha-256). Your proving key must be kept private, and therefore processing must be done on your end so that we cannot see it. This proof is very easy to verify on-chain, which makes it ideal for use with blockchains. You must approve a MetaMask transaction when it completes.
+            What's going on? A proving key (53MB) has been downloaded into your browser's memory. 
+                Your computer is currently creating a proof that you possess the hashed version of your private pre-image/password.  
+                This hashed version of your password is stored on the blockchain, and this proof allows the smart contract to verify
+                that you have the pre-image for this hash without exposing it (because Ethereum transactions are public). The resulting proof is very easy to verify on-chain, which makes it ideal for use 
+                with blockchains. You must approve a MetaMask transaction when it completes. This pool will become operational after a certain 
+                threshold of its users verify their membership. Storing your hash publicly on-chain is secure because it is virtually impossible (1 in 2^256)
+                to find its pre-image (using Sha-256). To keep your private pre-image secure, all processing must be 
+                done on your end so that no one but you can see it.
             </WhiteText>
             <LargeImage src={loading} alt="svg-loading" />
             <VerticalGap/>
