@@ -22,7 +22,6 @@ const CreateForm = () => {
     const emailList = poolMembers.map((item, index) => emailCard(item, index+1));
     const userContext = useContext(UserContext);
     const [broadcastThreshold, setBroadcastThreshold] = useState("1")
-
     const [processing, setProcessing] = useState(false)
 
     function handleClickAddEmail() {

@@ -88,7 +88,15 @@ const VerifyIdentityForm = () => {
 
     async function generateProofSetup() {
         setProcessing(true);
-        // generateZokratesProof();
+        generateZokratesProof();
+    }
+
+    async function getProvingKeyFromS3() {
+        return await fetch(process.env.PROVING_KEY_AWS_URL)
+        .then ((response) => response.json())
+        .then (data => {
+            return data
+        })
     }
 
     async function generateZokratesProof() {
@@ -118,9 +126,9 @@ const VerifyIdentityForm = () => {
 
         const { witness, output } = zokratesProvider.computeWitness(artifacts, [pre[0], pre[1], pre[2], pre[3], h0pub, h1pub]);
         
-        const provingKeyBuffer = {"data": "0"}
+        const provingKeyBuffer = await getProvingKeyFromS3();
 
-        const proof = zokratesProvider.generateProof(artifacts.program, witness, provingKeyBuffer.data);
+        const proof = zokratesProvider.generateProof(artifacts.program, witness, await provingKeyBuffer.data);
 
         alert(JSON.stringify(proof))
     }

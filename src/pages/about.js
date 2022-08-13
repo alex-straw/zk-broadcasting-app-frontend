@@ -1,5 +1,5 @@
 import React from 'react';
-import { Wrapper, WhiteTitle, BlackFullScreen } from "../component-styles/layout-styles"
+import { WhiteTitle, BlackFullScreen } from "../component-styles/layout-styles"
 import { LargeImage } from "../component-styles/layout-styles"
 import loading from '../images/7S7P.gif'
 
