@@ -21,6 +21,15 @@ export const WhiteTitle = styled.h1`
     color:white;
 `;
 
+export const WhiteText = styled.div`
+    font-size: 1em;
+    text-align: justify;
+    margin-left: 25vw;
+    width: 50vw;
+    word-wrap: break-word;
+    color:white;
+`;
+
 export const CenterComponent = styled.section`
     margin: auto;
     width: 75vw;
