@@ -38,8 +38,7 @@ export const CenterComponent = styled.section`
 
 export const VerticalGap = styled.section`
     padding:1em;
-    background:white;
-    height: 5%
+    height: 50px
 `
 
 export const TextBlock = styled.div`
@@ -55,10 +54,9 @@ export const TextBlock = styled.div`
 
 export const BlackFullScreen = styled.section`
     background-repeat: no-repeat;
-    background-size: contain;
-    width: 100vw;
-    height: 100vh;
+    background-size: cover;
     background-color: black;
+    background-position: center;
 `
 
 export const LargeImage = styled.img`
