@@ -1,4 +1,5 @@
 import { Contract } from "ethers";
+import poolFactoryAbi from '../../contracts/poolFactoryABI'
 import React, {useState, useContext} from "react";
 import { Input, TextBox, EmailCard, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, MidTextBoxDetail, LongerButton, ProcessingBox} from "../../component-styles/generic-styles"
 import { CenterComponent, Title, LargeImage, BlackFullScreen, VerticalGap, WhiteTitle, Wrapper, TextBlock, WhiteText} from "../../component-styles/layout-styles";
@@ -14,13 +15,14 @@ const VerifyIdentityForm = () => {
 
     /* GENERATE NEW PASSWORD */
     const nanoid = customAlphabet('123456789abcdef', 64)
-
     const [poolName, setPoolName] = useState("pool-name...");
     const [preImage, setPreImage] = useState("[0, 0, 34252345..., 2345239845...]");
     const [memberNumber, setMemberNumber] = useState("1");
     const [newPassword, setNewPassord] = useState("0");
     const [newPasswordHash, setNewPasswordHash] = useState("0")
     const [processing, setProcessing] = useState(false)
+    const userContext = useContext(UserContext);
+    const [poolAddress, setPoolAddress] = useState("");
 
 
     function generatePreImage() {
@@ -86,9 +88,40 @@ const VerifyIdentityForm = () => {
     
     /* GENERATE PROOF AND SEND TX */
 
+    function MetaMaskConnected() {
+        if (!userContext.address) {
+            return false
+        } else {
+            return true
+        }   
+    }
+
+    async function getPoolAddress() {
+        const poolFactory = new Contract( 
+            "0x4Cd7249632Df70A27324bd69725727a96Fc47729",
+            poolFactoryAbi,
+            userContext.signer
+        )
+        try {
+            return await poolFactory.getPoolAddress(poolName)
+        } catch {
+            return "0x0000000000000000000000000000000000000000"
+        }
+    }
+
     async function generateProofSetup() {
-        setProcessing(true);
-        generateZokratesProof();
+                
+        if (!MetaMaskConnected()) {
+            alert("Please connect your Metamask. ")
+        } else {
+            const newPoolAddress = await getPoolAddress()
+            if (newPoolAddress != "0x0000000000000000000000000000000000000000") {
+                setProcessing(true);
+                // generateZokratesProof();
+            } else {
+                alert("Invalid pool name")
+            }
+        }
     }
 
     async function getProvingKeyFromS3() {
@@ -132,6 +165,28 @@ const VerifyIdentityForm = () => {
 
         alert(JSON.stringify(proof))
     }
+
+    // async function verifyIdentity(poolName, proof, newPassword, memberNumber) {
+    //     // We know their metamask is connected here
+    //     const poolFactory = new Contract( 
+    //         "0x4Cd7249632Df70A27324bd69725727a96Fc47729",
+    //         poolFactoryAbi,
+    //         userContext.signer
+    //     )
+
+    //     try {
+    //         const transaction = await poolFactory.ver(poolName, idCount, options)
+    //         let reciept = await transaction.wait()
+
+    //         // Once processed - call lambda to deploy the pool and send emails
+    //         reciept.then(await awsLambdaCreatePool())
+
+    //     } catch(err) {
+    //         console.log(err)
+    //         return false
+    //     }
+    // }
+
 
     if (processing) {
         return(
