@@ -13,7 +13,6 @@ import loading from '../../images/7S7P.gif'
 
 const VerifyIdentityForm = () => {
 
-
     /* GENERATE NEW PASSWORD */
     const nanoid = customAlphabet('123456789abcdef', 64)
     const [poolName, setPoolName] = useState("pool-name...");
@@ -24,7 +23,7 @@ const VerifyIdentityForm = () => {
     const [processing, setProcessing] = useState(false)
     const userContext = useContext(UserContext);
     const [poolAddress, setPoolAddress] = useState("");
-
+    const [generatedProof, setGeneratedProof] = useState("");
 
     function generatePreImage() {
         return ethers.utils.hexlify("0x" + nanoid())
@@ -118,7 +117,12 @@ const VerifyIdentityForm = () => {
             const newPoolAddress = await getPoolAddress()
             if (newPoolAddress != "0x0000000000000000000000000000000000000000") {
                 setProcessing(true);
-                const userproof = await generateZokratesProof();
+
+                alert(newPasswordHash)
+
+                const userProof = await generateZokratesProof();
+
+                console.log(userProof)
 
                 const pool = new Contract( 
                     newPoolAddress,
@@ -126,14 +130,23 @@ const VerifyIdentityForm = () => {
                     userContext.signer
                 )
 
-                const transaction = await pool.verifyId(
-                    memberNumber, 
-                    [userproof.proof.a, userproof.proof.b, userproof.proof.c], 
-                    newPasswordHash
-                )
+                try {
+                    const transaction = await pool.verifyId(
+                        memberNumber, 
+                        [userProof.proof.a, userProof.proof.b, userProof.proof.c], 
+                        newPasswordHash
+                    )
 
-                let reciept = await transaction.wait()
-                reciept.then(alert("Successfully Verified!"))
+                    let reciept = await transaction.wait()
+                    reciept.then(alert("Successfully Verified!"))
+                } catch {
+                    alert(userProof)
+                    const transaction = await pool.verifyId(
+                        memberNumber, 
+                        [userProof["proof"].a, userProof["proof"].b, userProof["proof"].c], 
+                        newPasswordHash
+                    )                    
+                }
 
 
             } else {
@@ -179,31 +192,8 @@ const VerifyIdentityForm = () => {
         
         const provingKeyBuffer = await getProvingKeyFromS3();
 
-        const proof = zokratesProvider.generateProof(artifacts.program, witness, await provingKeyBuffer.data);
-
-        return await proof
+        return zokratesProvider.generateProof(artifacts.program, witness, await provingKeyBuffer.data);
     }
-
-    // async function verifyIdentity(poolName, proof, newPassword, memberNumber) {
-    //     // We know their metamask is connected here
-        // const poolFactory = new Contract( 
-        //     newPoolAddress,
-        //     poolAbi,
-        //     userContext.signer
-        // )
-
-    //     try {
-    //         const transaction = await poolFactory.ver(poolName, idCount, options)
-    //         let reciept = await transaction.wait()
-
-    //         // Once processed - call lambda to deploy the pool and send emails
-    //         reciept.then(await awsLambdaCreatePool())
-
-    //     } catch(err) {
-    //         console.log(err)
-    //         return false
-    //     }
-    // }
 
 
     if (processing) {
