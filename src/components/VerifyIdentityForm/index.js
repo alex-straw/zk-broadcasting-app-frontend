@@ -125,7 +125,7 @@ const VerifyIdentityForm = () => {
     }
 
     async function getProvingKeyFromS3() {
-        return await fetch(process.env.PROVING_KEY_AWS_URL)
+        return await fetch(process.env.REACT_APP_PROVING_KEY_URL)
         .then ((response) => response.json())
         .then (data => {
             return data

@@ -1,9 +1,9 @@
 import { Contract } from "ethers";
+import poolFactoryAbi from '../../contracts/poolFactoryABI'
 import React, {useState, useContext} from "react";
 import { Button, Input, TextBox, EmailCard, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, ProcessingBox} from "../../component-styles/generic-styles"
 import { VerticalGap } from "../../component-styles/layout-styles";
 import { UserContext } from "../../helpers/UserContext";
-import poolFactoryAbi from '../../contracts/poolFactoryABI'
 
 const emailCard = (item, index) => {
     return(
