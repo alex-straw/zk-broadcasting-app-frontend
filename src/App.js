@@ -5,10 +5,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages';
 import About from './pages/about';
 import Create from './pages/create';
-import Contact from './pages/contact';
-import SignUp from './pages/signup';
+import VerifyIdentity from './pages/verify-identity';
 import { UserContext } from "./helpers/UserContext"
-import {Image} from "./component-styles/generic-styles"
 
 function App() {
 
@@ -27,8 +25,7 @@ function App() {
             <Route path='/' exact element={<Home/>} />
             <Route path='/about' element={<About/>} />
             <Route path='/create' element={<Create/>} />
-            <Route path='/contact-us' element={<Contact/>} />
-            <Route path='/sign-up' element={<SignUp/>} />
+            <Route path='/verify-identity' element={<VerifyIdentity/>} />
         </Routes>
         </Router>
     </UserContext.Provider>

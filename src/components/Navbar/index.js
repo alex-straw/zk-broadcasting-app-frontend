@@ -2,9 +2,7 @@ import React from 'react';
 import {
   Nav,
   NavLink,
-  NavMenu,
-  NavBtn,
-  NavBtnLink
+  NavMenu
 } from '../../component-styles/navbar-styles';
 import MetaMask from './metamask';
 import {Image} from "../../component-styles/generic-styles"
@@ -25,8 +23,8 @@ const Navbar = () => {
           <NavLink to='/create'>
             Create
           </NavLink>
-          <NavLink to='/contact-us'>
-            Contact Us
+          <NavLink to='/verify-identity'>
+            Verify Identity
           </NavLink>
           <MetaMask/>
         </NavMenu>
