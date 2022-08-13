@@ -197,12 +197,7 @@ const VerifyIdentityForm = () => {
                 </pre>
             </WhiteTitle>
             <WhiteText> 
-                What's going on, and why is this so slow? A generic protocol proving key (53MB) has been downloaded into your browser's memory.
-                Your computer is currently creating a proof that you posess the hashed version of your private pre-image/password. The hashed 
-                version of your pre-image is on the blockchain, and this is secure because it is virtually impossible (1 in 2^256) to get the 
-                pre-image from this (using Sha-256). It's a slow proof to generate, but to keep you secure it must be processed on your end, so that
-                we cannot see it. However, it is very easy to verify - which makes it ideal for use with blockchains. You must approve a MetaMask 
-                transaction when it completes.
+                What's going on, and why is this so slow? A proving key (53MB) has been downloaded into your browser's memory. Your computer is currently creating a proof that you possess the hashed version of your private pre-image/password. This hashed version of your password is stored on the blockchain – and it allows the smart contract to verify your identity without exposing it. This is secure because it is virtually impossible (1 in 2^256) to get your private pre-image from this hash (using Sha-256). Your proving key must be kept private, and therefore processing must be done on your end so that we cannot see it. This proof is very easy to verify on-chain, which makes it ideal for use with blockchains. You must approve a MetaMask transaction when it completes.
             </WhiteText>
             <LargeImage src={loading} alt="svg-loading" />
             <VerticalGap/>
