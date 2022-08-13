@@ -1,5 +1,6 @@
 import { Contract } from "ethers";
 import poolFactoryAbi from '../../contracts/poolFactoryABI'
+import poolAbi from '../../contracts/poolABI.json'
 import React, {useState, useContext} from "react";
 import { Input, TextBox, EmailCard, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, MidTextBoxDetail, LongerButton, ProcessingBox} from "../../component-styles/generic-styles"
 import { CenterComponent, Title, LargeImage, BlackFullScreen, VerticalGap, WhiteTitle, Wrapper, TextBlock, WhiteText} from "../../component-styles/layout-styles";
@@ -117,7 +118,24 @@ const VerifyIdentityForm = () => {
             const newPoolAddress = await getPoolAddress()
             if (newPoolAddress != "0x0000000000000000000000000000000000000000") {
                 setProcessing(true);
-                // generateZokratesProof();
+                const userproof = await generateZokratesProof();
+
+                const pool = new Contract( 
+                    newPoolAddress,
+                    poolAbi,
+                    userContext.signer
+                )
+
+                const transaction = await pool.verifyId(
+                    memberNumber, 
+                    [userproof.proof.a, userproof.proof.b, userproof.proof.c], 
+                    newPasswordHash
+                )
+
+                let reciept = await transaction.wait()
+                reciept.then(alert("Successfully Verified!"))
+
+
             } else {
                 alert("Invalid pool name")
             }
@@ -163,16 +181,16 @@ const VerifyIdentityForm = () => {
 
         const proof = zokratesProvider.generateProof(artifacts.program, witness, await provingKeyBuffer.data);
 
-        alert(JSON.stringify(proof))
+        return await proof
     }
 
     // async function verifyIdentity(poolName, proof, newPassword, memberNumber) {
     //     // We know their metamask is connected here
-    //     const poolFactory = new Contract( 
-    //         "0x4Cd7249632Df70A27324bd69725727a96Fc47729",
-    //         poolFactoryAbi,
-    //         userContext.signer
-    //     )
+        // const poolFactory = new Contract( 
+        //     newPoolAddress,
+        //     poolAbi,
+        //     userContext.signer
+        // )
 
     //     try {
     //         const transaction = await poolFactory.ver(poolName, idCount, options)
