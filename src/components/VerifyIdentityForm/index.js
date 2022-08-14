@@ -2,7 +2,7 @@ import { Contract } from "ethers";
 import poolFactoryAbi from '../../contracts/poolFactoryABI'
 import poolAbi from '../../contracts/poolABI.json'
 import React, {useState, useContext} from "react";
-import { Input, LongTextBoxForOutput, LongTextBoxDetailNoMargin, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, MidTextBoxDetail, LongerButton, ProcessingBox} from "../../component-styles/generic-styles"
+import { Button, LongTextBoxForOutput, LongTextBoxDetailNoMargin, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, MidTextBoxDetail, LongerButton, SmallButton} from "../../component-styles/generic-styles"
 import { CenterComponent, Title, LargeImage, BlackFullScreen, VerticalGap, WhiteTitle, Wrapper, TextBlock, WhiteText} from "../../component-styles/layout-styles";
 import { UserContext } from "../../helpers/UserContext";
 import { customAlphabet } from "nanoid";
@@ -18,7 +18,8 @@ const VerifyIdentityForm = () => {
     const [poolName, setPoolName] = useState("pool-name...");
 
     const [preImage, setPreImage] = useState("[0, 0, 34252345..., 2345239845...]");
-    const [preImageHash, setPreImageHash] = useState("**");
+    const [preImageDecHash, setpreImageDecHash] = useState("**");
+    const [preImageHexHash, setPreImageHexHash] = useState("**");
 
     const [memberNumber, setMemberNumber] = useState("1");
     const [newPassword, setNewPassord] = useState("0");
@@ -207,9 +208,10 @@ const VerifyIdentityForm = () => {
         setPreImage(_preImage)
         try {
             let preImageHash = generateFormattedHashDigest(JSON.parse(_preImage))
-            setPreImageHash(preImageHash.decHash)
+            setpreImageDecHash(preImageHash.decHash)
+            setPreImageHexHash(preImageHash.hexHash)
         } catch {
-            setPreImageHash("0")
+            setpreImageDecHash("0")
         }
     }
 
@@ -267,8 +269,7 @@ const VerifyIdentityForm = () => {
                         </ol>
                     </TextBlock>
                 </Wrapper>
-                <VerticalGap/>
-            <LongTextBox>
+                <LongTextBox>
                 Name
             </LongTextBox>
 
@@ -289,14 +290,6 @@ const VerifyIdentityForm = () => {
                 name="preImage"
                 onChange={(e) => handlePreImageInput(e.target.value)}
             ></LongInput>   
-
-            <LongTextBoxForOutput>
-                Hash
-            </LongTextBoxForOutput>
-
-            <LongTextBoxDetailNoMargin onClick={() => {navigator.clipboard.writeText(preImageHash)}}>
-                {`["${preImageHash[0]},"${preImageHash[1]}"]`}
-            </LongTextBoxDetailNoMargin>
             
             <LongTextBoxDetail>
                 Member Number (An integer from 0 to the Nth final member)
@@ -308,17 +301,39 @@ const VerifyIdentityForm = () => {
                 name="memberNumber"
                 onChange={(e) => setMemberNumber(e.target.value)}
             ></TinyInput>
-            <LongerButton onClick={generateNewPasswordDetails}>
-                Generate New Password
-            </LongerButton>
+ 
+            <LongTextBoxForOutput>
+                Old Pre Image Dec Hash
+            </LongTextBoxForOutput>
 
-            <MidTextBoxDetail onClick={() => {navigator.clipboard.writeText(newPassword)}}>
+            <LongTextBoxDetailNoMargin onClick={() => {navigator.clipboard.writeText(preImageDecHash)}}>
+                {`["${preImageDecHash[0]},"${preImageDecHash[1]}"]`}
+            </LongTextBoxDetailNoMargin>
+
+            <LongTextBoxForOutput>
+                Old Pre Image Hex Hash
+            </LongTextBoxForOutput>
+
+            <LongTextBoxDetailNoMargin onClick={() => {navigator.clipboard.writeText(preImageHexHash)}}>
+                {`["${preImageHexHash[0]},"${preImageHexHash[1]}"]`}
+            </LongTextBoxDetailNoMargin>
+            
+            <Title>
+            Generate and copy your pre-image (below)
+            </Title>
+
+            <SmallButton onClick={generateNewPasswordDetails}>
+                Generate
+            </SmallButton>
+
+            <LongTextBoxDetailNoMargin onClick={() => {navigator.clipboard.writeText(newPassword)}}>
                 {newPassword}
-            </MidTextBoxDetail>
+            </LongTextBoxDetailNoMargin>
+
             <VerticalGap/>
 
             <LongerButton onClick={generateProofSetup}>
-                Generate Proof and Verify Your Identity
+                Submit
             </LongerButton>
         </CenterComponent>
         )

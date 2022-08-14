@@ -27,7 +27,7 @@ font-size: 1em;
     color: #000;
     border-style: solid;
     border-radius: 3px;
-    width: 10vw
+    width: 10.5vw
 `;
 
 export const Button = styled.button`
@@ -37,19 +37,42 @@ export const Button = styled.button`
     padding: 0.5vw;
     margin-left: 5vw;
     border-style: solid;
-    border-radius: 3px;
+    border-width: 3px;
+    border-color: black;
     background: white;
-    opacity: 0.6;
+    border-radius: 5px;
     transition: 0.3s;
     width: 15vw;
     display: inline-block;
 
 
     &:hover {
+        background:#5CC8FF;
         border-style: solid;
-        opacity: 1;
     }
 `;
+
+export const SmallButton = styled.button`
+    font-size: 1em;
+    margin: 0.5vw;
+    padding: 0.5vw;
+    margin-left: 5vw;
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+    background: white;
+    border-radius: 5px;
+    display: inline-block;
+    vertical-align:top;
+    width: 10vw;
+    transition: 0.3s;
+    text-align: center;
+
+    &:hover {
+        border-style: solid;
+        background:#5CC8FF;
+    }
+`
 
 export const LongerButton = styled.button`
   /* Adapt the colors based on primary prop */
@@ -60,8 +83,10 @@ export const LongerButton = styled.button`
     margin-left: auto;
     margin-right: auto;
     border-style: solid;
-    border-radius: 3px;
+    border-width: 3px;
+    border-color: black;
     background: white;
+    border-radius: 3px;
     opacity: 0.6;
     transition: 0.3s;
     width: 35vw;
@@ -69,6 +94,7 @@ export const LongerButton = styled.button`
     &:hover {
         border-style: solid;
         opacity: 1;
+        background:#5CC8FF;
     }
 `;
 
@@ -139,7 +165,7 @@ export const LongTextBoxDetailNoMargin = styled.h2`
     display: inline-block;
     width: 51vw;
     text-align: center;
-    overflow: auto;
+    word-wrap: break-word;
     margin-bottom: 0;
 
     &:hover {
@@ -163,7 +189,7 @@ export const MidTextBoxDetail = styled.h2`
     display: inline-block;
     text-align: center;
     opacity: 0.8;
-    word-wrap: break-word;
+    overflow: auto;
     inline-size: 62vw;
 
 
