@@ -11,7 +11,7 @@ export const Input = styled.input`
 `;
 
 export const LongInput = styled.input`
-font-size: 1em;
+    font-size: 1em;
     margin: 0.5vw;
     padding: 0.5vw;
     color: #000;
@@ -99,7 +99,7 @@ export const LongTextBox = styled.h2`
     text-align: center;
 `;
 
-export const LongTextBoxDetail = styled.h2`
+export const LongTextBoxForOutput = styled.h2`
     font-size: 1em;
     margin: 0.5vw;
     padding: 0.5vw;
@@ -109,8 +109,45 @@ export const LongTextBoxDetail = styled.h2`
     opacity: 0.75;
     background: grey;
     display: inline-block;
+    vertical-align:top;
+    width: 10vw;
+    text-align: center;
+`;
+
+export const LongTextBoxDetail = styled.h2`
+    font-size: 1em;
+    padding: 0.5vw;
+    margin-left: 5vw;
+    border-style: solid;
+    border-radius: 3px;
+    opacity: 0.75;
+    background: grey;
+    display: inline-block;
+    vertical-align:middle;
     width: 51vw;
     text-align: center;
+`;
+
+export const LongTextBoxDetailNoMargin = styled.h2`
+    font-size: 1em;
+    border-style: solid;
+    margin: 0.5vw;
+    padding: 0.5vw;
+    border-radius: 3px;
+    opacity: 0.75;
+    background: white;
+    display: inline-block;
+    width: 51vw;
+    text-align: center;
+    overflow: auto;
+    margin-bottom: 0;
+
+    &:hover {
+        border-style: solid;
+        opacity: 1;
+        cursor: copy;
+        background: #F5F5F5;
+    }
 `;
 
 export const MidTextBoxDetail = styled.h2`

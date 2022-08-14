@@ -2,7 +2,7 @@ import { Contract } from "ethers";
 import poolFactoryAbi from '../../contracts/poolFactoryABI'
 import poolAbi from '../../contracts/poolABI.json'
 import React, {useState, useContext} from "react";
-import { Input, TextBox, EmailCard, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, MidTextBoxDetail, LongerButton, ProcessingBox} from "../../component-styles/generic-styles"
+import { Input, LongTextBoxForOutput, LongTextBoxDetailNoMargin, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, MidTextBoxDetail, LongerButton, ProcessingBox} from "../../component-styles/generic-styles"
 import { CenterComponent, Title, LargeImage, BlackFullScreen, VerticalGap, WhiteTitle, Wrapper, TextBlock, WhiteText} from "../../component-styles/layout-styles";
 import { UserContext } from "../../helpers/UserContext";
 import { customAlphabet } from "nanoid";
@@ -16,7 +16,10 @@ const VerifyIdentityForm = () => {
     /* GENERATE NEW PASSWORD */
     const nanoid = customAlphabet('123456789abcdef', 64)
     const [poolName, setPoolName] = useState("pool-name...");
+
     const [preImage, setPreImage] = useState("[0, 0, 34252345..., 2345239845...]");
+    const [preImageHash, setPreImageHash] = useState("**");
+
     const [memberNumber, setMemberNumber] = useState("1");
     const [newPassword, setNewPassord] = useState("0");
     const [newPasswordHash, setNewPasswordHash] = useState("0")
@@ -24,6 +27,7 @@ const VerifyIdentityForm = () => {
     const userContext = useContext(UserContext);
     const [poolAddress, setPoolAddress] = useState("");
     const [generatedProof, setGeneratedProof] = useState("");
+
 
     function generatePreImage() {
         return ethers.utils.hexlify("0x" + nanoid())
@@ -122,31 +126,33 @@ const VerifyIdentityForm = () => {
 
                 const userProof = await generateZokratesProof();
 
-                console.log(userProof)
+                setGeneratedProof(JSON.stringify(userProof))
 
-                const pool = new Contract( 
-                    newPoolAddress,
-                    poolAbi,
-                    userContext.signer
-                )
+                // console.log(userProof)
 
-                try {
-                    const transaction = await pool.verifyId(
-                        memberNumber, 
-                        [userProof.proof.a, userProof.proof.b, userProof.proof.c], 
-                        newPasswordHash
-                    )
+                // const pool = new Contract( 
+                //     newPoolAddress,
+                //     poolAbi,
+                //     userContext.signer
+                // )
 
-                    let reciept = await transaction.wait()
-                    reciept.then(alert("Successfully Verified!"))
-                } catch {
-                    alert(userProof)
-                    const transaction = await pool.verifyId(
-                        memberNumber, 
-                        [userProof["proof"].a, userProof["proof"].b, userProof["proof"].c], 
-                        newPasswordHash
-                    )                    
-                }
+                // try {
+                //     const transaction = await pool.verifyId(
+                //         memberNumber, 
+                //         [userProof.proof.a, userProof.proof.b, userProof.proof.c], 
+                //         newPasswordHash
+                //     )
+
+                //     let reciept = await transaction.wait()
+                //     reciept.then(alert("Successfully Verified!"))
+                // } catch {
+                //     alert(userProof)
+                //     const transaction = await pool.verifyId(
+                //         memberNumber, 
+                //         [userProof["proof"].a, userProof["proof"].b, userProof["proof"].c], 
+                //         newPasswordHash
+                //     )                    
+                // }
 
 
             } else {
@@ -195,6 +201,18 @@ const VerifyIdentityForm = () => {
         return zokratesProvider.generateProof(artifacts.program, witness, await provingKeyBuffer.data);
     }
 
+    /* Show pre-image hash digest */
+
+    function handlePreImageInput(_preImage) {
+        setPreImage(_preImage)
+        try {
+            let preImageHash = generateFormattedHashDigest(JSON.parse(_preImage))
+            setPreImageHash(preImageHash.decHash)
+        } catch {
+            setPreImageHash("0")
+        }
+    }
+
 
     if (processing) {
         return(
@@ -202,6 +220,9 @@ const VerifyIdentityForm = () => {
             <WhiteTitle>
                 <pre>
                     Generating Proof {"\n"} This could take up to 5 minutes.
+                </pre>
+                <pre>
+                    {generatedProof}
                 </pre>
             </WhiteTitle>
             <WhiteText> 
@@ -266,8 +287,16 @@ const VerifyIdentityForm = () => {
                 type="text"
                 placeholder="[0, 0, 34252345..., 2345239845...]"
                 name="preImage"
-                onChange={(e) => setPreImage(e.target.value)}
+                onChange={(e) => handlePreImageInput(e.target.value)}
             ></LongInput>   
+
+            <LongTextBoxForOutput>
+                Hash
+            </LongTextBoxForOutput>
+
+            <LongTextBoxDetailNoMargin onClick={() => {navigator.clipboard.writeText(preImageHash)}}>
+                {`["${preImageHash[0]},"${preImageHash[1]}"]`}
+            </LongTextBoxDetailNoMargin>
             
             <LongTextBoxDetail>
                 Member Number (An integer from 0 to the Nth final member)
