@@ -23,7 +23,7 @@ const VerifyIdentityForm = () => {
 
     const [memberNumber, setMemberNumber] = useState("1");
     const [newPassword, setNewPassord] = useState("0");
-    const [newPasswordHash, setNewPasswordHash] = useState("0")
+    const [newPasswordHash, setNewPasswordHash] = useState("")
     const [processing, setProcessing] = useState(false)
     const userContext = useContext(UserContext);
     const [poolAddress, setPoolAddress] = useState("");
@@ -88,7 +88,7 @@ const VerifyIdentityForm = () => {
         let preImageFormatted = generateFormattedPreImage()
         let newPassword = generateFormattedHashDigest(preImageFormatted)
         setNewPassord(JSON.stringify(newPassword.preImage))
-        setNewPasswordHash(JSON.stringify(newPassword.hexHash))
+        setNewPasswordHash(newPassword.hexHash)
     }
     
     /* GENERATE PROOF AND SEND TX */
@@ -103,7 +103,7 @@ const VerifyIdentityForm = () => {
 
     async function getPoolAddress() {
         const poolFactory = new Contract( 
-            "0x4Cd7249632Df70A27324bd69725727a96Fc47729",
+            "0x1318b49C09758476240d0e1f52E242675ED790dc",
             poolFactoryAbi,
             userContext.signer
         )
@@ -121,41 +121,23 @@ const VerifyIdentityForm = () => {
         } else {
             const newPoolAddress = await getPoolAddress()
             if (newPoolAddress != "0x0000000000000000000000000000000000000000") {
-                setProcessing(true);
+                setProcessing(true);                
 
-                alert(newPasswordHash)
+                const proof = await generateZokratesProof(newPoolAddress)
 
-                const userProof = await generateZokratesProof();
+                const pool = new Contract( 
+                    newPoolAddress,
+                    poolAbi,
+                    userContext.signer
+                )
+        
+                let reciept = await pool.verifyId(
+                    memberNumber, 
+                    [await proof.proof.a, await proof.proof.b, await proof.proof.c],
+                    newPasswordHash
+                ) 
 
-                setGeneratedProof(JSON.stringify(userProof))
-
-                // console.log(userProof)
-
-                // const pool = new Contract( 
-                //     newPoolAddress,
-                //     poolAbi,
-                //     userContext.signer
-                // )
-
-                // try {
-                //     const transaction = await pool.verifyId(
-                //         memberNumber, 
-                //         [userProof.proof.a, userProof.proof.b, userProof.proof.c], 
-                //         newPasswordHash
-                //     )
-
-                //     let reciept = await transaction.wait()
-                //     reciept.then(alert("Successfully Verified!"))
-                // } catch {
-                //     alert(userProof)
-                //     const transaction = await pool.verifyId(
-                //         memberNumber, 
-                //         [userProof["proof"].a, userProof["proof"].b, userProof["proof"].c], 
-                //         newPasswordHash
-                //     )                    
-                // }
-
-
+                reciept.then(setProcessing(false))
             } else {
                 alert("Invalid pool name")
             }
@@ -199,7 +181,7 @@ const VerifyIdentityForm = () => {
         
         const provingKeyBuffer = await getProvingKeyFromS3();
 
-        return zokratesProvider.generateProof(artifacts.program, witness, await provingKeyBuffer.data);
+        return zokratesProvider.generateProof(artifacts.program, witness, await provingKeyBuffer.data); 
     }
 
     /* Show pre-image hash digest */
@@ -223,9 +205,6 @@ const VerifyIdentityForm = () => {
                 <pre>
                     Generating Proof {"\n"} This could take up to 5 minutes.
                 </pre>
-                <pre>
-                    {generatedProof}
-                </pre>
             </WhiteTitle>
             <WhiteText> 
             What's going on? A proving key (53MB) has been downloaded into your browser's memory. 
@@ -235,7 +214,7 @@ const VerifyIdentityForm = () => {
                 with blockchains. You must approve a MetaMask transaction when it completes. This pool will become operational after a certain 
                 threshold of its users verify their membership. Storing your hash publicly on-chain is secure because it is virtually impossible (1 in 2^256)
                 to find its pre-image (using Sha-256). To keep your private pre-image secure, all processing must be 
-                done on your end so that no one but you can see it.
+                done on your end so that no one but you can see it. 
             </WhiteText>
             <LargeImage src={loading} alt="svg-loading" />
             <VerticalGap/>
@@ -302,7 +281,7 @@ const VerifyIdentityForm = () => {
                 onChange={(e) => setMemberNumber(e.target.value)}
             ></TinyInput>
  
-            <LongTextBoxForOutput>
+            {/* <LongTextBoxForOutput>
                 Old Pre Image Dec Hash
             </LongTextBoxForOutput>
 
@@ -316,7 +295,7 @@ const VerifyIdentityForm = () => {
 
             <LongTextBoxDetailNoMargin onClick={() => {navigator.clipboard.writeText(preImageHexHash)}}>
                 {`["${preImageHexHash[0]},"${preImageHexHash[1]}"]`}
-            </LongTextBoxDetailNoMargin>
+            </LongTextBoxDetailNoMargin> */}
             
             <Title>
             Generate and copy your new pre-image (below)

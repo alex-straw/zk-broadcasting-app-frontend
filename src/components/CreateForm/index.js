@@ -34,7 +34,7 @@ const CreateForm = () => {
     async function paySetupFee(fee) {
         // We know their metamask is connected here
         const poolFactory = new Contract( 
-            "0x4Cd7249632Df70A27324bd69725727a96Fc47729",
+            "0x1318b49C09758476240d0e1f52E242675ED790dc",
             poolFactoryAbi,
             userContext.signer
         )
