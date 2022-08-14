@@ -319,7 +319,7 @@ const VerifyIdentityForm = () => {
             </LongTextBoxDetailNoMargin>
             
             <Title>
-            Generate and copy your pre-image (below)
+            Generate and copy your new pre-image (below)
             </Title>
 
             <SmallButton onClick={generateNewPasswordDetails}>
@@ -333,7 +333,7 @@ const VerifyIdentityForm = () => {
             <VerticalGap/>
 
             <LongerButton onClick={generateProofSetup}>
-                Submit
+                Submit Form
             </LongerButton>
         </CenterComponent>
         )
