@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages';
 import Broadcast from './pages/broadcast';
 import Create from './pages/create';
+import View from './pages/view';
 import VerifyIdentity from './pages/verify-identity';
 import { UserContext } from "./helpers/UserContext"
 
@@ -26,6 +27,7 @@ function App() {
             <Route path='/create' element={<Create/>} />
             <Route path='/verify-identity' element={<VerifyIdentity/>} />
             <Route path='/broadcast' element={<Broadcast/>} />
+            <Route path='/view' element={<View/>} />
         </Routes>
         </Router>
     </UserContext.Provider>

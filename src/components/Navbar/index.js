@@ -26,6 +26,9 @@ const Navbar = () => {
           <NavLink to='/broadcast'>
             Broadcast
           </NavLink>
+          <NavLink to='/view'>
+            View
+          </NavLink>
           <MetaMask/>
         </NavMenu>
       </Nav>
