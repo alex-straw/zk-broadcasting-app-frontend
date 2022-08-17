@@ -125,6 +125,19 @@ export const LongTextBox = styled.h2`
     text-align: center;
 `;
 
+export const MidTextBox = styled.h2`
+    font-size: 1em;
+    margin: 0.5vw;
+    padding: 0.5vw;
+    border-style: solid;
+    border-radius: 3px;
+    opacity: 0.75;
+    background: grey;
+    display: inline-block;
+    width: 34.5vw;
+    text-align: center;
+`;
+
 export const LongTextBoxForOutput = styled.h2`
     font-size: 1em;
     margin: 0.5vw;
@@ -152,6 +165,27 @@ export const LongTextBoxDetail = styled.h2`
     vertical-align:middle;
     width: 51vw;
     text-align: center;
+`;
+
+export const HyperLink = styled.h2`
+    font-size: 1em;
+    padding: 0.5vw;
+    margin-left: 5vw;
+    border-style: solid;
+    border-radius: 3px;
+    opacity: 0.75;
+    background: white;
+    display: inline-block;
+    vertical-align:middle;
+    width: 62vw;
+    text-align: center;
+
+    &:hover {
+        border-style: solid;
+        opacity: 1;
+        cursor: copy;
+        background: #5CC8FF;
+    }
 `;
 
 export const LongTextBoxDetailNoMargin = styled.h2`

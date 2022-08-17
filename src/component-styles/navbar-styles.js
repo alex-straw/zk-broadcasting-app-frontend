@@ -32,3 +32,16 @@ export const NavMenu = styled.div`
   align-items: center;
   margin-right: -24px;
 `;
+
+export const Hyperlink = styled(Link)`
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0 1rem;
+  height: 100%;
+  cursor: pointer;
+  &.active {
+    color: #5CC8FF;
+  }
+`;

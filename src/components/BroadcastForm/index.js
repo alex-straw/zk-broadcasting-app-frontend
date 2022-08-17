@@ -24,7 +24,7 @@ const VerifyIdentityForm = () => {
     const [memberNumber, setMemberNumber] = useState("1");
     const [processing, setProcessing] = useState(false)
     const userContext = useContext(UserContext);
-    const [cidHash, setCidHash] = useState("");
+    const [cidHash, setCidHash] = useState("f01701220c3c4733ec8affd06cf9e9ff50ffc6bcd2ec85a6170004bb709669c31de94391a");
 
 
     function sha256Hash(preImage) {

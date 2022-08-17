@@ -1,14 +1,17 @@
 import React from 'react';
-import { Wrapper, Title, CenterComponent} from "../component-styles/layout-styles"
+import { Title, CenterComponent} from "../component-styles/layout-styles"
+import ViewData from "../components/ViewData"
 
 const View = () => {
-  return (        
-          <div>
-          <CenterComponent>          
-            <Title> View </Title>
-          </CenterComponent>
-          </div>
-  );
+
+    return (        
+      	<div>
+            <CenterComponent>          
+          		<Title> View </Title>
+           		<ViewData/>
+            </CenterComponent>
+            </div>
+    );
 };
 
 export default View;
