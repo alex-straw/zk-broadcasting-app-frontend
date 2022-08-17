@@ -125,7 +125,7 @@ const ViewData = () => {
 			return( <div> </div> )
 		} else {
 
-			let url = `https://dweb.link/ipfs/${cidHash}`
+			let url = `https://dweb.link/ipfs/${cidHash.replaceAll('"','')}`
 
 			return (
 				<HyperLink>			
