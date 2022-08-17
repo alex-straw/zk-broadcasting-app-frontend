@@ -5,12 +5,12 @@ import { Wrapper, Title, CenterComponent} from "../component-styles/layout-style
 
 const Create = () => {
   return (
-        <Wrapper>
-            <Title> Create </Title>
-            <CenterComponent>
-                <CreateForm/>
-            </CenterComponent>
-        </Wrapper>
+        <div>
+        <CenterComponent>          
+          <Title> Create </Title>
+          <CreateForm/>
+        </CenterComponent>
+        </div>
   );
 };
 

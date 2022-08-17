@@ -2,10 +2,12 @@ import React from 'react';
 import { Wrapper, Title, CenterComponent} from "../component-styles/layout-styles"
 
 const View = () => {
-  return (
-        <Wrapper>
+  return (        
+          <div>
+          <CenterComponent>          
             <Title> View </Title>
-        </Wrapper>
+          </CenterComponent>
+          </div>
   );
 };
 

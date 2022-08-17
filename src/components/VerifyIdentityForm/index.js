@@ -230,7 +230,6 @@ const VerifyIdentityForm = () => {
     } else {
         return(
             <CenterComponent>
-                <Title> Verify Identity </Title>
                 <Wrapper>
                     <TextBlock>
                         <ol>
