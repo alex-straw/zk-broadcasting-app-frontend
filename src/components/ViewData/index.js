@@ -136,10 +136,9 @@ const ViewData = () => {
 
 	return (
 		<CenterComponent>
-			<Wrapper>
-				<LongTextBox>
-					Pool Name
-				</LongTextBox>
+			<LongTextBox>
+				Name
+			</LongTextBox>
 
 				<LongInput 
 					type="text"
@@ -153,7 +152,6 @@ const ViewData = () => {
 				<LongerButton onClick = {getPoolData}> Submit </LongerButton>
 				<VerticalGap/>
 				{renderPoolData()}
-			</Wrapper>
 		</CenterComponent>
 	);
 };
