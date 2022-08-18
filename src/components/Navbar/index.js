@@ -21,7 +21,7 @@ const Navbar = () => {
             Create
           </NavLink>
           <NavLink to='/verify-identity'>
-            Verify Identity
+            Verify 
           </NavLink>
           <NavLink to='/broadcast'>
             Broadcast
