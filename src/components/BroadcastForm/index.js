@@ -17,7 +17,6 @@ const VerifyIdentityForm = () => {
     const [preImage, setPreImage] = useState("[0, 0, 34252345..., 2345239845...]");
     const [preImageDecHash, setpreImageDecHash] = useState("**");
     const [preImageHexHash, setPreImageHexHash] = useState("**");
-
     const [memberNumber, setMemberNumber] = useState("1");
     const [processing, setProcessing] = useState(false)
     const userContext = useContext(UserContext);
@@ -216,7 +215,7 @@ const VerifyIdentityForm = () => {
     } else {
         return(
             <CenterComponent>
-                <Title> Broadcast </Title>
+                <Title> 3. Broadcast </Title>
                 <Wrapper>
                     <TextBlock>
                         <ol>

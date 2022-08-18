@@ -7,7 +7,7 @@ const View = () => {
     return (        
       	<div>
             <CenterComponent>          
-          		<Title> View </Title>
+          		<Title> 4. View </Title>
            		<ViewData/>
             </CenterComponent>
             </div>

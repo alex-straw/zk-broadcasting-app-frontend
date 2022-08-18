@@ -7,7 +7,7 @@ const Create = () => {
   return (
         <div>
         <CenterComponent>          
-          <Title> Create </Title>
+          <Title> 1. Create </Title>
           <CreateForm/>
         </CenterComponent>
         </div>

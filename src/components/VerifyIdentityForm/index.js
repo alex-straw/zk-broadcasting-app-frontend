@@ -229,7 +229,7 @@ const VerifyIdentityForm = () => {
     } else {
         return(
             <CenterComponent>
-            <Title> Verify Identity </Title>
+            <Title> 2. Verify Identity </Title>
                 <Wrapper>
                     <TextBlock>
                         <ol>
