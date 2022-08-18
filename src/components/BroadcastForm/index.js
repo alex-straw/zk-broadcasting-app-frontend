@@ -2,10 +2,9 @@ import { Contract } from "ethers";
 import poolFactoryAbi from '../../contracts/poolFactoryABI'
 import poolAbi from '../../contracts/poolABI.json'
 import React, {useState, useContext} from "react";
-import { Button, LongTextBoxForOutput, LongTextBoxDetailNoMargin, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, MidTextBoxDetail, LongerButton, SmallButton} from "../../component-styles/generic-styles"
+import { LongInput, LongTextBox, LongTextBoxDetail, TinyInput, LongerButton} from "../../component-styles/generic-styles"
 import { CenterComponent, Title, LargeImage, BlackFullScreen, VerticalGap, WhiteTitle, Wrapper, TextBlock, WhiteText} from "../../component-styles/layout-styles";
 import { UserContext } from "../../helpers/UserContext";
-import { customAlphabet } from "nanoid";
 import { ethers } from "ethers";
 import { initialize } from 'zokrates-js';
 // import provingKeyBuffer from './ProvingKeyBuffer.json'
@@ -13,8 +12,6 @@ import loading from '../../images/7S7P.gif'
 
 const VerifyIdentityForm = () => {
 
-    /* GENERATE NEW PASSWORD */
-    const nanoid = customAlphabet('123456789abcdef', 64)
     const [poolName, setPoolName] = useState("pool-name...");
 
     const [preImage, setPreImage] = useState("[0, 0, 34252345..., 2345239845...]");
@@ -207,10 +204,9 @@ const VerifyIdentityForm = () => {
                 What's going on? A proving key (53MB) has been downloaded into your browser's memory. 
                 Your computer is currently creating a proof that you possess the hashed version of your private pre-image/password.  
                 This hashed version of your password is stored on the blockchain, and this proof allows the smart contract to verify
-                that you have the pre-image for this hash without exposing it (because Ethereum transactions are public). The resulting proof is very easy to verify on-chain, which makes it ideal for use 
-                with blockchains. You must approve a MetaMask transaction when it completes. This pool will become operational after a certain 
-                threshold of its users verify their membership. Storing your hash publicly on-chain is secure because it is virtually impossible (1 in 2^256)
-                to find its pre-image (using Sha-256). To keep your private pre-image secure, all processing must be 
+                that you have the pre-image for this hash without exposing it (because Ethereum transactions are public). The resulting proof is very easy to verify, which makes it ideal for use 
+                with blockchains--You must approve a MetaMask transaction when it completes. This pool will become operational after a certain 
+                threshold of its users verify their membership. To keep your private pre-image secure, all processing must be 
                 done on your end so that no one but you can see it. 
             </WhiteText>
             <LargeImage src={loading} alt="svg-loading" />

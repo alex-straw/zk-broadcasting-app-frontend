@@ -36,6 +36,17 @@ export const CenterComponent = styled.section`
     padding: 10px;
 `
 
+export const TextWrapper = styled.div`
+    padding: 1em;
+    background: white;
+    margin-left:12vw;
+    width: 50vw;
+    text-align: justify;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+`
+
 export const VerticalGap = styled.section`
     padding:1em;
     height: 50px

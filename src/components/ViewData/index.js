@@ -2,12 +2,9 @@ import { Contract } from "ethers";
 import poolFactoryAbi from '../../contracts/poolFactoryABI'
 import poolAbi from '../../contracts/poolABI.json'
 import React, {useState, useContext} from "react";
-import { Button, MidTextBox, HyperLink, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, MidTextBoxDetail, LongerButton, SmallButton} from "../../component-styles/generic-styles"
-import { CenterComponent, Title, LargeImage, BlackFullScreen, VerticalGap, WhiteTitle, Wrapper, TextBlock, WhiteText} from "../../component-styles/layout-styles";
+import { Button, MidTextBox, HyperLink, LongInput, LongTextBox, TinyInput, LongerButton} from "../../component-styles/generic-styles"
+import { CenterComponent, VerticalGap, Wrapper} from "../../component-styles/layout-styles";
 import { UserContext } from "../../helpers/UserContext";
-import { upload } from "@testing-library/user-event/dist/upload";
-import { Hyperlink } from "../../component-styles/navbar-styles";
-import { Route } from "react-router-dom";
 
 const ViewData = () => {
 

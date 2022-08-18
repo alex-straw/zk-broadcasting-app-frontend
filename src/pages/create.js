@@ -1,6 +1,6 @@
 import React from 'react';
 import CreateForm from '../components/CreateForm';
-import { Wrapper, Title, CenterComponent} from "../component-styles/layout-styles"
+import { Title, CenterComponent} from "../component-styles/layout-styles"
 
 
 const Create = () => {
