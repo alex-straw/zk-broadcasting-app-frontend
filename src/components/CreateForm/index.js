@@ -1,7 +1,7 @@
 import { Contract } from "ethers";
 import poolFactoryAbi from '../../contracts/poolFactoryABI'
 import React, {useState, useContext} from "react";
-import { Button, Input, TextBox, EmailCard, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, ProcessingBox} from "../../component-styles/generic-styles"
+import { Button, LongerButton, Input, TextBox, EmailCard, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, ProcessingBox} from "../../component-styles/generic-styles"
 import { VerticalGap } from "../../component-styles/layout-styles";
 import { UserContext } from "../../helpers/UserContext";
 
@@ -34,17 +34,17 @@ const CreateForm = () => {
     async function paySetupFee(fee) {
         // We know their metamask is connected here
         const poolFactory = new Contract( 
-            "0x1318b49C09758476240d0e1f52E242675ED790dc",
+            "0xC6f319b5BE84B12C09F74e4eBa2A3cA60EFBbeF5",
             poolFactoryAbi,
             userContext.signer
         )
         const options = {value: fee}
         try {
             const transaction = await poolFactory.paySetupFee(poolName, idCount, options)
-            let reciept = await transaction.wait()
+            let receipt = await transaction.wait()
 
             // Once processed - call lambda to deploy the pool and send emails
-            reciept.then(await awsLambdaCreatePool())
+            receipt.then(await awsLambdaCreatePool())
 
         } catch(err) {
             console.log(err)
@@ -117,8 +117,6 @@ const CreateForm = () => {
                     onChange={(e) => setPoolName(e.target.value)}
                 ></LongInput>   
 
-                <VerticalGap/>
-
                 <LongTextBoxDetail>
                     Verification threshold (n) for pool to become operational
                 </LongTextBoxDetail>
@@ -129,9 +127,6 @@ const CreateForm = () => {
                     name="broadcastThreshold"
                     onChange={(e) => setBroadcastThreshold(e.target.value)} 
                 ></TinyInput>
-
-                <VerticalGap/>
-
                 <Button onClick = {handleClickAddEmail}> Add Email </Button>  
                 <Input 
                     type="text"
@@ -143,9 +138,11 @@ const CreateForm = () => {
                     {idCount}
                 </TextBox>
                 {emailList}
-                <Button onClick = {handleClickSubmit}> Submit </Button>
-            
+
                 <VerticalGap/>
+
+                <LongerButton onClick = {handleClickSubmit}> Submit </LongerButton>
+            
             </div>
         )
     }

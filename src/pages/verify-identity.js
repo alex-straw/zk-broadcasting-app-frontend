@@ -3,7 +3,9 @@ import VerifyIdentityForm from "../components/VerifyIdentityForm"
 
 const VerifyIdentity = () => {
     return (
-        <VerifyIdentityForm/>
+        <div>
+          <VerifyIdentityForm/>
+        </div>
       );
 };
 

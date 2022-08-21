@@ -17,14 +17,17 @@ const Navbar = () => {
         </NavLink>
         {/* <Bars /> */}
         <NavMenu>
-          <NavLink to='/about'>
-            About
-          </NavLink>
           <NavLink to='/create'>
             Create
           </NavLink>
           <NavLink to='/verify-identity'>
-            Verify Identity
+            Verify 
+          </NavLink>
+          <NavLink to='/broadcast'>
+            Broadcast
+          </NavLink>
+          <NavLink to='/view'>
+            View
           </NavLink>
           <MetaMask/>
         </NavMenu>

@@ -2,10 +2,9 @@ import { Contract } from "ethers";
 import poolFactoryAbi from '../../contracts/poolFactoryABI'
 import poolAbi from '../../contracts/poolABI.json'
 import React, {useState, useContext} from "react";
-import { LongTextBoxDetailNoMargin, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, LongerButton, SmallButton} from "../../component-styles/generic-styles"
+import { LongInput, LongTextBox, LongTextBoxDetail, TinyInput, LongerButton} from "../../component-styles/generic-styles"
 import { CenterComponent, Title, LargeImage, BlackFullScreen, VerticalGap, WhiteTitle, Wrapper, TextBlock, WhiteText} from "../../component-styles/layout-styles";
 import { UserContext } from "../../helpers/UserContext";
-import { customAlphabet } from "nanoid";
 import { ethers } from "ethers";
 import { initialize } from 'zokrates-js';
 // import provingKeyBuffer from './ProvingKeyBuffer.json'
@@ -13,26 +12,16 @@ import loading from '../../images/7S7P.gif'
 
 const VerifyIdentityForm = () => {
 
-    /* GENERATE NEW PASSWORD */
-    const nanoid = customAlphabet('123456789abcdef', 64)
     const [poolName, setPoolName] = useState("pool-name...");
 
     const [preImage, setPreImage] = useState("[0, 0, 34252345..., 2345239845...]");
     const [preImageDecHash, setpreImageDecHash] = useState("**");
     const [preImageHexHash, setPreImageHexHash] = useState("**");
-
     const [memberNumber, setMemberNumber] = useState("1");
-    const [newPassword, setNewPassord] = useState("0");
-    const [newPasswordHash, setNewPasswordHash] = useState("")
     const [processing, setProcessing] = useState(false)
     const userContext = useContext(UserContext);
-    const [poolAddress, setPoolAddress] = useState("");
-    const [generatedProof, setGeneratedProof] = useState("");
+    const [cidHash, setCidHash] = useState("f01701220c3c4733ec8affd06cf9e9ff50ffc6bcd2ec85a6170004bb709669c31de94391a");
 
-
-    function generatePreImage() {
-        return ethers.utils.hexlify("0x" + nanoid())
-    };
 
     function sha256Hash(preImage) {
         return ethers.utils.soliditySha256(["int128", "int128", "int128", "int128"], [preImage[0], preImage[1], preImage[2], preImage[3]])
@@ -66,13 +55,6 @@ const VerifyIdentityForm = () => {
         return [ethers.BigNumber.from(_formattedHexHashArray[0]).toString(), ethers.BigNumber.from(_formattedHexHashArray[1]).toString()]
     };
 
-    function generateFormattedPreImage() {
-        let preImage = generatePreImage()
-        let preImageSetupInput = formatHexToBigNumber(formatBytes32Hash(preImage))
-        let preImageFormatted = ["0", "0", preImageSetupInput[0], preImageSetupInput[1]]
-        return preImageFormatted
-    }
-
     function generateFormattedHashDigest(preImageFormatted) {
         let hashDigestHexFormatted = formatBytes32Hash(sha256Hash(preImageFormatted))
         let hashDigestDecFormatted = formatHexToBigNumber(hashDigestHexFormatted)
@@ -82,13 +64,6 @@ const VerifyIdentityForm = () => {
             'decHash' : hashDigestDecFormatted
         }
         return password
-    }
-
-    function generateNewPasswordDetails() {
-        let preImageFormatted = generateFormattedPreImage()
-        let newPassword = generateFormattedHashDigest(preImageFormatted)
-        setNewPassord(JSON.stringify(newPassword.preImage))
-        setNewPasswordHash(newPassword.hexHash)
     }
     
     /* GENERATE PROOF AND SEND TX */
@@ -114,41 +89,53 @@ const VerifyIdentityForm = () => {
         }
     }
 
-    async function endProcess() {
-        setProcessing(false);
-        localStorage.clear();
-    }
+    //         setIdCount(await poolContract.idCount())
+//         setVerifiedIdCount(await poolContract.verifiedIdCount())
+//         setBroadcastThreshold(await poolContract.broadcastThreshold())
 
     async function generateProofSetup() {
                 
         if (!MetaMaskConnected()) {
             alert("Please connect your Metamask. ")
         } else {
-            const newPoolAddress = await getPoolAddress()
-            if (newPoolAddress != "0x0000000000000000000000000000000000000000") {
-                setProcessing(true);                
+            const poolAddress = await getPoolAddress()
 
-                const proof = await generateZokratesProof(newPoolAddress)
-
-                const pool = new Contract( 
-                    newPoolAddress,
+            if (poolAddress == "0x0000000000000000000000000000000000000000") {
+                alert("Invalid pool name") 
+            } else {
+                const poolContract = new Contract( 
+                    poolAddress,
                     poolAbi,
                     userContext.signer
                 )
-        
-                const transaction = await pool.verifyId(
-                    memberNumber, 
-                    [await proof.proof.a, await proof.proof.b, await proof.proof.c],
-                    newPasswordHash
-                ) 
 
-                await transaction.wait()
+                let verifiedCount = await poolContract.verifiedIdCount()
+                let broadcastThreshold = await poolContract.broadcastThreshold()
 
-                await endProcess()
-            } else {
-                alert("Invalid pool name")
-            }
+                if (await verifiedCount < await broadcastThreshold) {
+                    alert(`${(await broadcastThreshold) - (await verifiedCount)} more member(s) must verify their identity in this pool before broadcasting is enabled`)
+                } else {
+                    setProcessing(true);                
+
+                    const proof = await generateZokratesProof(poolAddress)
+            
+                    const transaction = await poolContract.broadcastData(
+                        memberNumber, 
+                        [await proof.proof.a, await proof.proof.b, await proof.proof.c],
+                        cidHash
+                    ) 
+
+                    await transaction.wait()
+    
+                    endProcess()
+                }
+            } 
         }
+    }
+
+    function endProcess() {
+        setProcessing(false);
+        localStorage.clear();
     }
 
     async function getProvingKeyFromS3() {
@@ -204,7 +191,6 @@ const VerifyIdentityForm = () => {
         }
     }
 
-
     if (processing) {
         return(
             <BlackFullScreen>
@@ -214,7 +200,7 @@ const VerifyIdentityForm = () => {
                 </pre>
             </WhiteTitle>
             <WhiteText> 
-            What's going on? A proving key (53MB) has been downloaded into your browser's memory. 
+                What's going on? A proving key (53MB) has been downloaded into your browser's memory. 
                 Your computer is currently creating a proof that you possess the hashed version of your private pre-image/password.  
                 This hashed version of your password is stored on the blockchain, and this proof allows the smart contract to verify
                 that you have the pre-image for this hash without exposing it (because Ethereum transactions are public). The resulting proof is very easy to verify, which makes it ideal for use 
@@ -229,12 +215,12 @@ const VerifyIdentityForm = () => {
     } else {
         return(
             <CenterComponent>
-            <Title> 2. Verify Identity </Title>
+                <Title> 3. Broadcast </Title>
                 <Wrapper>
                     <TextBlock>
                         <ol>
                             <li>
-                            Enter the pool that you wish to verify your membership in. 
+                            Enter the pool that you wish to broadcast in. 
                             </li>
                             <li>
                             Enter your pre-image.
@@ -243,18 +229,15 @@ const VerifyIdentityForm = () => {
                             Enter your member number.
                             </li>
                             <li>
-                            Generate a random password (performed on your end - so we can't see).
+                            Provide the IPFS URL for the data you want to post.
                             </li>
                             <li>
                             Generate a zk-SNARK proof that proves you posess the associated password (pre-image) for that member, without revealing you or the password. This takes a long time ~2-3 minutes.
                             </li>
-                            <li>
-                            Update your new password on-chain (so we can't pretend to be you).
-                            </li>
                         </ol>
                     </TextBlock>
                 </Wrapper>
-                <LongTextBox>
+            <LongTextBox>
                 Name
             </LongTextBox>
 
@@ -286,34 +269,17 @@ const VerifyIdentityForm = () => {
                 name="memberNumber"
                 onChange={(e) => setMemberNumber(e.target.value)}
             ></TinyInput>
- 
-            {/* <LongTextBoxForOutput>
-                Old Pre Image Dec Hash
-            </LongTextBoxForOutput>
 
-            <LongTextBoxDetailNoMargin onClick={() => {navigator.clipboard.writeText(preImageDecHash)}}>
-                {`["${preImageDecHash[0]},"${preImageDecHash[1]}"]`}
-            </LongTextBoxDetailNoMargin>
+            <LongTextBox>
+                IPFS CID
+            </LongTextBox>
 
-            <LongTextBoxForOutput>
-                Old Pre Image Hex Hash
-            </LongTextBoxForOutput>
-
-            <LongTextBoxDetailNoMargin onClick={() => {navigator.clipboard.writeText(preImageHexHash)}}>
-                {`["${preImageHexHash[0]},"${preImageHexHash[1]}"]`}
-            </LongTextBoxDetailNoMargin> */}
-            
-            <Title>
-            Generate and copy your new pre-image (below)
-            </Title>
-
-            <SmallButton onClick={generateNewPasswordDetails}>
-                Generate
-            </SmallButton>
-
-            <LongTextBoxDetailNoMargin onClick={() => {navigator.clipboard.writeText(newPassword)}}>
-                {newPassword}
-            </LongTextBoxDetailNoMargin>
+            <LongInput 
+                type="text"
+                placeholder="f01701220c3c4733ec8affd06cf9e9ff50ffc6bcd2ec85a6170004bb709669c31de94391a"
+                name="cid"
+                onChange={(e) => setCidHash(e.target.value)}
+            ></LongInput>   
 
             <VerticalGap/>
 
