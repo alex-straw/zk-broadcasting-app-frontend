@@ -5,12 +5,10 @@ import ViewData from "../components/ViewData"
 const View = () => {
 
     return (        
-      	<div>
-            <CenterComponent>          
-          		<Title> 4. View </Title>
-           		<ViewData/>
-            </CenterComponent>
-            </div>
+        <CenterComponent>          
+          	<Title> 4. View </Title>
+           	<ViewData/>
+        </CenterComponent>
     );
 };
 
