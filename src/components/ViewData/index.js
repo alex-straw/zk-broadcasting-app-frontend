@@ -28,7 +28,7 @@ const ViewData = () => {
 
 	async function getPoolAddress() {
 		const poolFactory = new Contract( 
-			"0xC6f319b5BE84B12C09F74e4eBa2A3cA60EFBbeF5",
+			"0xb48996e69c4E8e454bc1EcD050bA8475500cd96e",
 			poolFactoryAbi,
 			userContext.signer
 		)
