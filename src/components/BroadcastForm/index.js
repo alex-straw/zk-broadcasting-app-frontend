@@ -115,19 +115,30 @@ const VerifyIdentityForm = () => {
                 if (await verifiedCount < await broadcastThreshold) {
                     alert(`${(await broadcastThreshold) - (await verifiedCount)} more member(s) must verify their identity in this pool before broadcasting is enabled`)
                 } else {
-                    setProcessing(true);                
 
-                    const proof = await generateZokratesProof(poolAddress)
-            
-                    const transaction = await poolContract.broadcastData(
-                        memberNumber, 
-                        [await proof.proof.a, await proof.proof.b, await proof.proof.c],
-                        cidHash
-                    ) 
+                    const preImageHash = generateFormattedHashDigest(JSON.parse(preImage))
+                    
+                    let memberHashDigest = await poolContract.getMemberHash(memberNumber)
+                    let formattedMemberHashDigest = ethers.utils.formatEther(await memberHashDigest[0]).toString()
+                    let decHashFormatted = ethers.utils.formatEther(preImageHash.decHash[0]).toString()
 
-                    await transaction.wait()
+                    if (await formattedMemberHashDigest != decHashFormatted) {
+                        alert("Your-pre image is not correct for that member")
+                    } else {
+                        setProcessing(true);                
     
-                    endProcess()
+                        const proof = await generateZokratesProof(poolAddress)
+                
+                        const transaction = await poolContract.broadcastData(
+                            memberNumber, 
+                            [await proof.proof.a, await proof.proof.b, await proof.proof.c],
+                            cidHash
+                        ) 
+    
+                        await transaction.wait()
+        
+                        endProcess()                    
+                    }
                 }
             } 
         }
@@ -136,6 +147,7 @@ const VerifyIdentityForm = () => {
     function endProcess() {
         setProcessing(false);
         localStorage.clear();
+        alert("success!")
     }
 
     async function getProvingKeyFromS3() {
