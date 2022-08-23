@@ -89,8 +89,9 @@ const CreateForm = () => {
                             poolFactoryAbi,
                             userContext.signer
                         )
+                
 
-                        if (poolFactory.poolNameInUse(poolName)==true) {
+                        if (await poolFactory.poolNameInUse(poolName)==true) {
                             alert("Name already in use, please modify this and try again")
                         } else {
                             const response = await fetch(`${process.env.REACT_APP_ESTIMATE_GAS_API}?idCount=${idCount}`);
