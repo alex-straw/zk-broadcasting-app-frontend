@@ -34,7 +34,7 @@ const CreateForm = () => {
     async function paySetupFee(fee) {
         // We know their metamask is connected here
         const poolFactory = new Contract( 
-            "0xC6f319b5BE84B12C09F74e4eBa2A3cA60EFBbeF5",
+            "0xb48996e69c4E8e454bc1EcD050bA8475500cd96e",
             poolFactoryAbi,
             userContext.signer
         )
@@ -84,14 +84,25 @@ const CreateForm = () => {
                     alert(`Verification Threshold must be between 1 and ${idCount}`)
                 } else {
                     try {
-                        const response = await fetch(`${process.env.REACT_APP_ESTIMATE_GAS_API}?idCount=${idCount}`);
+                        let poolFactory = new Contract( 
+                            "0xb48996e69c4E8e454bc1EcD050bA8475500cd96e",
+                            poolFactoryAbi,
+                            userContext.signer
+                        )
                 
-                        if (!response.ok) {
-                        throw new Error(`Error! status: ${response.status}`);
+
+                        if (await poolFactory.poolNameInUse(poolName)==true) {
+                            alert("Name already in use, please modify this and try again")
+                        } else {
+                            const response = await fetch(`${process.env.REACT_APP_ESTIMATE_GAS_API}?idCount=${idCount}`);
+                
+                            if (!response.ok) {
+                            throw new Error(`Error! status: ${response.status}`);
+                            }
+                        
+                            const result = await response.json();
+                            await paySetupFee(parseInt(await result["gasCostEther"]));
                         }
-                    
-                        const result = await response.json();
-                        await paySetupFee(parseInt(await result["gasCostEther"]));
 
                     } catch (err) {
                         console.log(err);

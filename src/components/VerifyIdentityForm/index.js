@@ -103,7 +103,7 @@ const VerifyIdentityForm = () => {
 
     async function getPoolAddress() {
         const poolFactory = new Contract( 
-            "0xC6f319b5BE84B12C09F74e4eBa2A3cA60EFBbeF5",
+            "0xb48996e69c4E8e454bc1EcD050bA8475500cd96e",
             poolFactoryAbi,
             userContext.signer
         )
@@ -117,6 +117,7 @@ const VerifyIdentityForm = () => {
     async function endProcess() {
         setProcessing(false);
         localStorage.clear();
+        alert("success!")
     }
 
     async function generateProofSetup() {
@@ -125,28 +126,37 @@ const VerifyIdentityForm = () => {
             alert("Please connect your Metamask. ")
         } else {
             const newPoolAddress = await getPoolAddress()
-            if (newPoolAddress != "0x0000000000000000000000000000000000000000") {
-                setProcessing(true);                
-
-                const proof = await generateZokratesProof(newPoolAddress)
+            if (newPoolAddress == "0x0000000000000000000000000000000000000000") {
+                alert("Invalid pool name")
+            } else {
 
                 const pool = new Contract( 
                     newPoolAddress,
                     poolAbi,
                     userContext.signer
                 )
-        
-                const transaction = await pool.verifyId(
-                    memberNumber, 
-                    [await proof.proof.a, await proof.proof.b, await proof.proof.c],
-                    newPasswordHash
-                ) 
+                
+                let memberHashDigest = await pool.getMemberHash(memberNumber)
+                let formattedMemberHashDigest = ethers.utils.formatEther(await memberHashDigest[0]).toString()
+                let decHashFormatted = ethers.utils.formatEther(preImageDecHash[0]).toString()
 
-                await transaction.wait()
+                if (await formattedMemberHashDigest != decHashFormatted) {
+                    alert("Your-pre image is not correct for that member")
+                } else {
+                    setProcessing(true);                
 
-                await endProcess()
-            } else {
-                alert("Invalid pool name")
+                    const proof = await generateZokratesProof(newPoolAddress)
+            
+                    const transaction = await pool.verifyId(
+                        memberNumber, 
+                        [await proof.proof.a, await proof.proof.b, await proof.proof.c],
+                        newPasswordHash
+                    ) 
+    
+                    await transaction.wait()
+    
+                    await endProcess()
+                }
             }
         }
     }
