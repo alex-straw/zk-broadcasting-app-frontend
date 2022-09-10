@@ -13,11 +13,10 @@ import loading from '../../images/7S7P.gif'
 const VerifyIdentityForm = () => {
 
     const [poolName, setPoolName] = useState("pool-name...");
-
     const [preImage, setPreImage] = useState("[0, 0, 34252345..., 2345239845...]");
     const [preImageDecHash, setpreImageDecHash] = useState("**");
     const [preImageHexHash, setPreImageHexHash] = useState("**");
-    const [memberNumber, setMemberNumber] = useState("1");
+    const [memberNumber, setMemberNumber] = useState("0");
     const [processing, setProcessing] = useState(false)
     const userContext = useContext(UserContext);
     const [cidHash, setCidHash] = useState("f01701220c3c4733ec8affd06cf9e9ff50ffc6bcd2ec85a6170004bb709669c31de94391a");

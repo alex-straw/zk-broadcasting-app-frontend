@@ -1,4 +1,4 @@
-import { Contract } from "ethers";
+import { Contract, ethers } from "ethers";
 import poolFactoryAbi from '../../contracts/poolFactoryABI'
 import React, {useState, useContext} from "react";
 import { Button, LongerButton, Input, TextBox, EmailCard, LongInput, LongTextBox, LongTextBoxDetail, TinyInput, ProcessingBox} from "../../component-styles/generic-styles"
@@ -38,6 +38,7 @@ const CreateForm = () => {
             poolFactoryAbi,
             userContext.signer
         )
+
         const options = {value: fee}
         try {
             const transaction = await poolFactory.paySetupFee(poolName, idCount, options)
@@ -90,7 +91,6 @@ const CreateForm = () => {
                             userContext.signer
                         )
                 
-
                         if (await poolFactory.poolNameInUse(poolName)==true) {
                             alert("Name already in use, please modify this and try again")
                         } else {
@@ -101,7 +101,7 @@ const CreateForm = () => {
                             }
                         
                             const result = await response.json();
-                            await paySetupFee(parseInt(await result["gasCostEther"]));
+                            await paySetupFee(`${await result["gasCostEther"]}`);
                         }
 
                     } catch (err) {

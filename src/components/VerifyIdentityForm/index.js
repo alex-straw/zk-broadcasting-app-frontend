@@ -21,7 +21,7 @@ const VerifyIdentityForm = () => {
     const [preImageDecHash, setpreImageDecHash] = useState("**");
     const [preImageHexHash, setPreImageHexHash] = useState("**");
 
-    const [memberNumber, setMemberNumber] = useState("1");
+    const [memberNumber, setMemberNumber] = useState("0");
     const [newPassword, setNewPassord] = useState("0");
     const [newPasswordHash, setNewPasswordHash] = useState("")
     const [processing, setProcessing] = useState(false)
@@ -118,7 +118,7 @@ const VerifyIdentityForm = () => {
         setProcessing(false);
         localStorage.clear();
         alert("success!")
-    }
+    }    
 
     async function generateProofSetup() {
                 
@@ -314,14 +314,14 @@ const VerifyIdentityForm = () => {
             </LongTextBoxDetailNoMargin> */}
             
             <Title>
-            Generate and copy your new pre-image (below)
+            Please copy the pre-image below (you will have highlight and copy manually)
             </Title>
 
             <SmallButton onClick={generateNewPasswordDetails}>
                 Generate
             </SmallButton>
 
-            <LongTextBoxDetailNoMargin onClick={() => {navigator.clipboard.writeText(newPassword)}}>
+            <LongTextBoxDetailNoMargin>
                 {newPassword}
             </LongTextBoxDetailNoMargin>
 
